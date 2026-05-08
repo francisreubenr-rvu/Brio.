@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.docx
+*.pptx
+.gemini_security/
+.socraticode/
+memory/
