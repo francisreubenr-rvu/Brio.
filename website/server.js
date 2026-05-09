@@ -51,7 +51,7 @@ const authenticate = (req, res, next) => {
 // --- PROFILE & MAIN APP ---
 app.get('/api/profile/me', authenticate, async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT user_id, f_name, l_name, email, bio, avatar_url, github_url, role, sub_tier, joined_at FROM users WHERE user_id = ?', [req.user.id]);
+    const [rows] = await pool.query('SELECT user_id, f_name, l_name, email, bio, avatar_url, role, sub_tier, joined_at FROM users WHERE user_id = ?', [req.user.id]);
     const [stats] = await pool.query('SELECT * FROM learner_dashboard_view WHERE user_id = ?', [req.user.id]);
     res.json({ profile: rows[0], stats: stats[0] });
   } catch (err) { res.status(500).json({ error: err.message }); }
@@ -59,8 +59,8 @@ app.get('/api/profile/me', authenticate, async (req, res) => {
 
 app.post('/api/profile/update', authenticate, async (req, res) => {
   try {
-    const { bio, github_url } = req.body;
-    await pool.query('UPDATE users SET bio = ?, github_url = ? WHERE user_id = ?', [bio, github_url, req.user.id]);
+    const { bio } = req.body;
+    await pool.query('UPDATE users SET bio = ? WHERE user_id = ?', [bio, req.user.id]);
     res.json({ success: true });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });

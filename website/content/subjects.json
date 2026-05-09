@@ -10,41 +10,124 @@
           "difficulty": "Beginner",
           "credits": 3,
           "type": "Theory",
-          "keyTopics": [
-            "Fundamental Rights",
-            "Directive Principles",
-            "Professional Ethics"
-          ],
+          "keyTopics": ["Fundamental Rights", "Directive Principles", "Professional Ethics"],
           "lessons": [
-            {
-              "id": "l1",
-              "title": "Constitutional Values",
-              "summary": "Foundational principles and values."
-            },
-            {
-              "id": "l2",
-              "title": "Fundamental Rights",
-              "summary": "Rights, remedies, and implications."
-            }
+            { "id": "l1", "title": "Constitutional Values", "summary": "Foundational principles and values.", "content": "The Constitution of India is the supreme law of the land. It was adopted on 26th November 1949 and came into effect on 26th January 1950. The Constitution establishes a sovereign, socialist, secular, democratic republic. This lesson covers the Preamble, fundamental rights, and the directive principles of state policy." },
+            { "id": "l2", "title": "Fundamental Rights", "summary": "Rights, remedies, and implications.", "content": "Part III of the Constitution guarantees six fundamental rights: Right to Equality (Articles 14-18), Right to Freedom (Articles 19-22), Right against Exploitation (Articles 23-24), Right to Freedom of Religion (Articles 25-28), Cultural and Educational Rights (Articles 29-30), and Right to Constitutional Remedies (Article 32)." }
           ],
           "quizzes": [
-            {
-              "q": "Which part of the Constitution enumerates Fundamental Rights?",
-              "a": "Part III"
-            },
-            {
-              "q": "What is the purpose of Directive Principles?",
-              "a": "Guidance for governance and policy."
-            }
+            { "q": "Which part of the Constitution enumerates Fundamental Rights?", "a": "Part III" },
+            { "q": "What is the purpose of Directive Principles?", "a": "Guidance for governance and policy." }
           ],
-          "assignments": [
-            "Short note on the significance of the Preamble.",
-            "Case study on conflict between rights and duties."
+          "assignments": ["Short note on the significance of the Preamble.", "Case study on conflict between rights and duties."],
+          "resources": ["Constitution of India and Prof Ethics.pdf", "Question Bank.docx"]
+        },
+        {
+          "id": "sem1-maths",
+          "title": "Engineering Mathematics I",
+          "overview": "Linear algebra, calculus, and differential equations for engineering applications.",
+          "difficulty": "Intermediate",
+          "credits": 4,
+          "type": "Theory",
+          "keyTopics": ["Linear Algebra", "Differential Calculus", "Integral Calculus", "Differential Equations"],
+          "lessons": [
+            { "id": "l3", "title": "Matrices & Determinants", "summary": "Matrix operations, rank, and inverse.", "content": "Matrices are rectangular arrays of numbers arranged in rows and columns. Key operations include addition, multiplication, transpose, and finding determinants. The rank of a matrix is the maximum number of linearly independent row vectors." },
+            { "id": "l4", "title": "Limits & Continuity", "summary": "Concept of limits, continuity, and differentiability.", "content": "The limit of a function describes its behavior as the input approaches a value. Continuity means the function has no breaks or jumps. A function is differentiable if its derivative exists at every point in its domain." }
           ],
-          "resources": [
-            "Constitution of India and Prof Ethics.pdf",
-            "Question Bank.docx"
-          ]
+          "quizzes": [
+            { "q": "What is the determinant of a 2x2 matrix [[a,b],[c,d]]?", "a": "ad - bc" },
+            { "q": "What does the Intermediate Value Theorem state?", "a": "A continuous function takes all values between f(a) and f(b)." }
+          ],
+          "assignments": ["Solve system of linear equations using matrix method.", "Find limits of given trigonometric functions."],
+          "resources": ["Engineering Math Textbook.pdf", "Formula Sheet.pdf"]
+        }
+      ]
+    },
+    {
+      "name": "Sem 2",
+      "subjects": [
+        {
+          "id": "sem2-dbms",
+          "title": "Database Management Systems",
+          "overview": "Relational database design, SQL, normalization, and transaction management.",
+          "difficulty": "Intermediate",
+          "credits": 4,
+          "type": "Theory",
+          "keyTopics": ["ER Modeling", "SQL", "Normalization", "Transactions"],
+          "lessons": [
+            { "id": "l5", "title": "ER Model & Diagram", "summary": "Entity-relationship modeling concepts.", "content": "The Entity-Relationship (ER) model is a conceptual data model that describes entities, attributes, and relationships. Entities are objects in the real world, attributes describe properties, and relationships show how entities connect. Chen notation is the standard way to represent ER diagrams." },
+            { "id": "l6", "title": "SQL Fundamentals", "summary": "DDL, DML, and querying.", "content": "SQL (Structured Query Language) is the standard language for relational database management. DDL (CREATE, ALTER, DROP) defines the schema. DML (INSERT, UPDATE, DELETE, SELECT) manipulates data. SELECT queries can include JOINs, GROUP BY, HAVING, and subqueries." },
+            { "id": "l7", "title": "Normalization", "summary": "1NF, 2NF, 3NF, BCNF.", "content": "Normalization organizes data to reduce redundancy. 1NF ensures atomic values. 2NF removes partial dependencies. 3NF removes transitive dependencies. BCNF is a stronger version of 3NF where every determinant is a superkey." }
+          ],
+          "quizzes": [
+            { "q": "What is the purpose of normalization?", "a": "Reduce data redundancy and eliminate anomalies." },
+            { "q": "What does ACID stand for?", "a": "Atomicity, Consistency, Isolation, Durability." },
+            { "q": "Which normal form removes transitive dependencies?", "a": "Third Normal Form (3NF)" }
+          ],
+          "assignments": ["Design an ER diagram for a library management system.", "Normalize a given unnormalized table to 3NF."],
+          "resources": ["DBMS Textbook.pdf", "SQL Quick Reference.pdf"]
+        },
+        {
+          "id": "sem2-dsa",
+          "title": "Data Structures & Algorithms",
+          "overview": "Fundamental data structures, sorting, searching, and algorithmic problem-solving.",
+          "difficulty": "Intermediate",
+          "credits": 4,
+          "type": "Theory",
+          "keyTopics": ["Arrays", "Linked Lists", "Trees", "Sorting"],
+          "lessons": [
+            { "id": "l8", "title": "Arrays & Strings", "summary": "Array manipulation and string algorithms.", "content": "Arrays are contiguous memory blocks storing elements of the same type. Key operations: traversal, insertion, deletion, and searching. String algorithms include pattern matching, palindrome checking, and anagram detection. Time complexity is O(n) for most linear operations." },
+            { "id": "l9", "title": "Linked Lists", "summary": "Singly, doubly, and circular linked lists.", "content": "Linked lists are linear data structures where elements are stored in nodes. Each node contains data and a pointer to the next node. Singly linked lists have one pointer per node, doubly linked lists have two. Operations include insertion, deletion, and traversal with O(n) worst-case time." }
+          ],
+          "quizzes": [
+            { "q": "What is the time complexity of binary search?", "a": "O(log n)" },
+            { "q": "Which data structure uses FIFO principle?", "a": "Queue" }
+          ],
+          "assignments": ["Implement a stack using linked lists.", "Write a program to detect palindrome strings."],
+          "resources": ["DSA Textbook.pdf", "Algorithm Visualizer Link"]
+        }
+      ]
+    },
+    {
+      "name": "Sem 3",
+      "subjects": [
+        {
+          "id": "sem3-os",
+          "title": "Operating Systems",
+          "overview": "Process management, memory management, file systems, and concurrency.",
+          "difficulty": "Advanced",
+          "credits": 4,
+          "type": "Theory",
+          "keyTopics": ["Process Scheduling", "Memory Management", "File Systems", "Concurrency"],
+          "lessons": [
+            { "id": "l10", "title": "Process Scheduling", "summary": "CPU scheduling algorithms.", "content": "Process scheduling determines which process runs next. Common algorithms: FCFS (First-Come, First-Served), SJF (Shortest Job First), Round Robin, and Priority Scheduling. Each has trade-offs between throughput, turnaround time, and response time." },
+            { "id": "l11", "title": "Memory Management", "summary": "Paging, segmentation, virtual memory.", "content": "Memory management allocates and deallocates memory to processes. Paging divides memory into fixed-size pages. Segmentation uses variable-sized segments. Virtual memory allows processes to use more memory than physically available through demand paging and page replacement algorithms." }
+          ],
+          "quizzes": [
+            { "q": "What is a deadlock?", "a": "Two or more processes waiting indefinitely for resources held by each other." },
+            { "q": "Which page replacement algorithm uses the future?", "a": "Optimal Page Replacement (OPT)" }
+          ],
+          "assignments": ["Simulate Round Robin CPU scheduling.", "Implement a page replacement algorithm (LRU)."],
+          "resources": ["OS Textbook.pdf", "Linux Kernel Notes.pdf"]
+        },
+        {
+          "id": "sem3-cn",
+          "title": "Computer Networks",
+          "overview": "Network protocols, TCP/IP, routing, and application-layer protocols.",
+          "difficulty": "Advanced",
+          "credits": 4,
+          "type": "Lab",
+          "keyTopics": ["TCP/IP", "Routing", "HTTP/HTTPS", "Network Security"],
+          "lessons": [
+            { "id": "l12", "title": "TCP/IP Protocol Suite", "summary": "Layered architecture and protocols.", "content": "TCP/IP is the fundamental communication protocol of the internet. It has four layers: Application, Transport, Internet, and Network Interface. TCP provides reliable, connection-oriented communication. IP handles addressing and routing between networks." },
+            { "id": "l13", "title": "HTTP & Web Security", "summary": "HTTP methods, status codes, TLS.", "content": "HTTP is the application-layer protocol for the web. Key methods: GET, POST, PUT, DELETE. Status codes indicate results (2xx success, 3xx redirect, 4xx client error, 5xx server error). TLS encrypts HTTP traffic to create HTTPS, ensuring confidentiality and integrity." }
+          ],
+          "quizzes": [
+            { "q": "Which OSI layer does TCP operate at?", "a": "Transport Layer (Layer 4)" },
+            { "q": "What does a 404 status code mean?", "a": "Not Found" }
+          ],
+          "assignments": ["Trace route to a website and analyze hops.", "Set up a simple HTTP server using Node.js."],
+          "resources": ["Networking Textbook.pdf", "Wireshark Lab Guide.pdf"]
         }
       ]
     }

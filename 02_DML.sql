@@ -7,19 +7,27 @@
 USE brio_db;
 
 -- -------------------------
--- Insert Users (10)
+-- Insert Users (15)
+-- 10 original + 5 dummy accounts for demo dashboard
+-- All passwords: password123 (bcrypt hash)
 -- -------------------------
-INSERT INTO users (f_name, l_name, email, role, sub_tier) VALUES
-('James',    'Wilson',    'james.wilson@devpath.io',    'learner',  'pro'),
-('Emma',    'Thomas',     'emma.thomas@devpath.io',     'learner',  'team'),
-('Daniel',    'Taylor',    'daniel.taylor@devpath.io',    'learner',  'starter'),
-('Sarah',    'Moore',     'sarah.moore@devpath.io',     'learner',  'team'),
-('Matthew',    'Anderson',    'matthew.anderson@devpath.io',    'learner',  'pro'),
-('Olivia',   'White',   'olivia.white@devpath.io',  'learner',  'team'),
-('Michael',  'Smith',     'michael.smith@devpath.io',   'learner',  'team'),
-('Francis',  'Reuben',   'francis.reuben@devpath.io', 'learner',  'team'),
-('David', 'Miller',       'david.miller@devpath.io',    'learner',  'team'),
-('Jessica',   'Martin',      'jessica.martin@devpath.io',     'mentor',   'pro');
+INSERT INTO users (f_name, l_name, email, role, sub_tier, password_hash, avatar_url, bio) VALUES
+('James',    'Wilson',    'james.wilson@devpath.io',    'learner',  'pro',   '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Full-stack dev in the making. Building TaskFlow AI.'),
+('Emma',    'Thomas',     'emma.thomas@devpath.io',     'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Data science enthusiast. Love Python and pandas.'),
+('Daniel',    'Taylor',    'daniel.taylor@devpath.io',    'learner',  'starter','$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Frontend learner. HTML, CSS, JS all day.'),
+('Sarah',    'Moore',     'sarah.moore@devpath.io',     'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Mobile dev focused on React Native.'),
+('Matthew',    'Anderson',    'matthew.anderson@devpath.io',    'learner',  'pro',   '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Frontend engineering master. CSS Grid wizard.'),
+('Olivia',   'White',   'olivia.white@devpath.io',  'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Aspiring full-stack developer. Currently learning React.'),
+('Michael',  'Smith',     'michael.smith@devpath.io',   'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Team Pixel lead. Building CollaboNote.'),
+('Francis',  'Reuben',   'francis.reuben@devpath.io', 'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Backend dev. API design and database optimization.'),
+('David', 'Miller',       'david.miller@devpath.io',    'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Frontend dev. React and Tailwind enthusiast.'),
+('Jessica',   'Martin',      'jessica.martin@devpath.io',     'mentor',   'pro',   '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Senior mentor guiding the next generation of devs.'),
+-- 5 Dummy accounts for demo dashboard
+('Aarav',    'Sharma',    'aarav.sharma@demo.io',       'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Building full-stack projects. 80% through the curriculum.'),
+('Priya',    'Verma',     'priya.verma@demo.io',        'learner',  'pro',   '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Pythonista. Data viz and machine learning. 65% done.'),
+('Rohan',    'Patel',     'rohan.patel@demo.io',        'learner',  'starter','$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Just started my coding journey! 25% through basics.'),
+('Ananya',   'Reddy',     'ananya.reddy@demo.io',       'learner',  'team',  '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'Mobile app dev. React Native and Swift. 45% complete.'),
+('Vikram',   'Singh',     'vikram.singh@demo.io',       'learner',  'pro',   '$2b$10$cPz/IBtkNjlPH9FI0Z9OJ.tUCH7TlOyAynwFs9yTgDiazvLO2kr3y', NULL, 'DevOps learner. Docker, CI/CD, cloud. 55% through.');
 
 -- -------------------------
 -- Insert Courses (5)
@@ -146,7 +154,17 @@ INSERT INTO enrollment (user_id, course_id, grade, progress) VALUES
 (7, 1, 78.0, 100),   -- Michael: Full-Stack (complete)
 (8, 1, 84.0, 100),   -- Francis: Full-Stack (complete)
 (9, 5, NULL, 80),    -- David: Frontend (in progress)
-(10, 1, NULL, 0);    -- Jessica (mentor): Full-Stack (auditing)
+(10, 1, NULL, 0),    -- Jessica (mentor): Full-Stack (auditing)
+-- 5 Dummy accounts with varying progress
+(11, 1, NULL, 80),   -- Aarav: Full-Stack (80%)
+(11, 2, NULL, 75),   -- Aarav: Python DS (75%)
+(12, 2, 85.0, 65),   -- Priya: Python DS (65%)
+(12, 5, NULL, 40),   -- Priya: Frontend (40%)
+(13, 5, NULL, 25),   -- Rohan: Frontend (just started, 25%)
+(14, 3, NULL, 45),   -- Ananya: Mobile (45%)
+(14, 1, NULL, 30),   -- Ananya: Full-Stack (30%)
+(15, 4, NULL, 55),   -- Vikram: DevOps (55%)
+(15, 1, NULL, 60);   -- Vikram: Full-Stack (60%)
 
 -- -------------------------
 -- Insert Submissions (8)

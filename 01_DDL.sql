@@ -24,7 +24,10 @@ CREATE TABLE users (
     email       VARCHAR(100) NOT NULL UNIQUE,
     role        ENUM('learner', 'mentor', 'admin') NOT NULL DEFAULT 'learner',
     joined_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    sub_tier    ENUM('starter', 'pro', 'team') NOT NULL DEFAULT 'starter'
+    sub_tier    ENUM('starter', 'pro', 'team') NOT NULL DEFAULT 'starter',
+    password_hash VARCHAR(255) NOT NULL DEFAULT '',
+    avatar_url  VARCHAR(500) DEFAULT NULL,
+    bio         TEXT DEFAULT NULL
 );
 
 -- --------------------------------------------------------------
