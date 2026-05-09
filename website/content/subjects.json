@@ -1,0 +1,52 @@
+{
+  "semesters": [
+    {
+      "name": "Sem 1",
+      "subjects": [
+        {
+          "id": "sem1-const",
+          "title": "Constitution & Professional Ethics",
+          "overview": "Study constitutional foundations, fundamental rights, and professional ethics in engineering.",
+          "difficulty": "Beginner",
+          "credits": 3,
+          "type": "Theory",
+          "keyTopics": [
+            "Fundamental Rights",
+            "Directive Principles",
+            "Professional Ethics"
+          ],
+          "lessons": [
+            {
+              "id": "l1",
+              "title": "Constitutional Values",
+              "summary": "Foundational principles and values."
+            },
+            {
+              "id": "l2",
+              "title": "Fundamental Rights",
+              "summary": "Rights, remedies, and implications."
+            }
+          ],
+          "quizzes": [
+            {
+              "q": "Which part of the Constitution enumerates Fundamental Rights?",
+              "a": "Part III"
+            },
+            {
+              "q": "What is the purpose of Directive Principles?",
+              "a": "Guidance for governance and policy."
+            }
+          ],
+          "assignments": [
+            "Short note on the significance of the Preamble.",
+            "Case study on conflict between rights and duties."
+          ],
+          "resources": [
+            "Constitution of India and Prof Ethics.pdf",
+            "Question Bank.docx"
+          ]
+        }
+      ]
+    }
+  ]
+}
