@@ -283,23 +283,58 @@
     <div id="tab-viz" class="tab-content">
       <div class="card">
         <h2 class="card-title">System Architecture Flow</h2>
-        <p style="font-weight: 700; margin-bottom: 2rem;">Animating the request/response lifecycle for a lesson submission triggering a database skill gate.</p>
+        <p style="font-weight: 700; margin-bottom: 2rem;">Interactive visualization of the Request -> Logic -> Storage lifecycle. Click "SUBMIT LESSON" to trigger the flow.</p>
         
-        <div class="architecture">
-          <div class="layer frontend"><h2>Frontend</h2><p>Browser (Vanilla JS)</p></div>
-          <div class="connector">
-            <div id="p-req-1" class="packet"></div><div id="p-res-1" class="packet"></div>
-            <div class="label-flow" id="lbl-1">HTTP POST /api/submit</div>
-          </div>
-          <div class="layer backend"><h2>Backend</h2><p>Node.js (Express)</p></div>
-          <div class="connector">
-            <div id="p-req-2" class="packet"></div><div id="p-res-2" class="packet"></div>
-            <div class="label-flow" id="lbl-2">MySQL query()</div>
-          </div>
-          <div class="layer database"><h2>Database</h2><p>MySQL 8.0 (brio_db)</p></div>
-        </div>
+        <div style="display: flex; gap: 3rem; flex-wrap: wrap;">
+          <!-- Left side: Vertical Architecture -->
+          <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 3rem; position: relative;">
+            <!-- Vertical Pipeline line -->
+            <div style="position: absolute; left: 50%; top: 50px; bottom: 50px; width: 6px; background: var(--border); transform: translateX(-50%); z-index: 1;"></div>
+            <!-- Animated Packet -->
+            <div id="v-packet" style="position: absolute; left: 50%; top: 50px; width: 24px; height: 24px; background: var(--accent-amber); border: 3px solid var(--border); border-radius: 50%; transform: translateX(-50%); z-index: 5; opacity: 0; transition: top 1s ease-in-out;"></div>
 
-        <button class="btn sage" style="margin: 0 auto; display: block; max-width: 400px;" onclick="simulate()">RUN SIMULATION</button>
+            <!-- 1. Frontend -->
+            <div style="background: var(--surface); border: 4px solid var(--border); box-shadow: var(--shadow); position: relative; z-index: 2;">
+              <h3 style="background: var(--accent-amber); padding: 0.5rem 1rem; border-bottom: 4px solid var(--border);">1. Frontend (Webpage)</h3>
+              <div style="padding: 1.5rem;">
+                <div style="border: 2px dashed var(--border); padding: 1rem; text-align: center; background: var(--bg);">
+                  <p style="font-weight: bold; margin-bottom: 1rem;">Lesson: Authentication with JWTs</p>
+                  <button class="btn sage" onclick="runVizSimulation()">SUBMIT LESSON</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Backend -->
+            <div style="background: var(--surface); border: 4px solid var(--border); box-shadow: var(--shadow); position: relative; z-index: 2;">
+              <h3 style="background: var(--accent-sage); color: var(--surface); padding: 0.5rem 1rem; border-bottom: 4px solid var(--border);">2. Backend (Node.js)</h3>
+              <div style="padding: 1.5rem; background: var(--text); color: var(--accent-sage); font-family: var(--font-mono); font-size: 0.85rem; overflow-x: auto;">
+                app.post('/api/submit', async (req, res) => {<br>
+                &nbsp;&nbsp;const { lessonId } = req.body;<br>
+                &nbsp;&nbsp;<span id="v-be-code" style="color: #fff;">await pool.query('INSERT INTO submission...');</span><br>
+                });
+              </div>
+            </div>
+
+            <!-- 3. Database -->
+            <div style="background: var(--surface); border: 4px solid var(--border); box-shadow: var(--shadow); position: relative; z-index: 2;">
+              <h3 style="background: var(--accent-rust); color: var(--surface); padding: 0.5rem 1rem; border-bottom: 4px solid var(--border);">3. MySQL Database</h3>
+              <div style="padding: 1.5rem; text-align: center;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 0.5rem;"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                <p id="v-db-status" style="font-family: var(--font-mono); font-weight: bold;">Awaiting Query...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Live Log -->
+          <div style="flex: 1; min-width: 300px;">
+            <div style="background: var(--bg); border: 4px solid var(--border); height: 100%; display: flex; flex-direction: column;">
+              <h3 style="padding: 1rem; border-bottom: 4px solid var(--border); background: var(--text); color: var(--surface);">Execution Log</h3>
+              <div id="v-log" style="padding: 1rem; font-family: var(--font-mono); font-size: 0.9rem; overflow-y: auto; flex: 1;">
+                > System idle...
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
