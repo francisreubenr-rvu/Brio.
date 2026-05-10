@@ -24,6 +24,27 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
+// Chaos Sandbox Read-Only Pool
+const readOnlyPool = mysql.createPool({
+  host: 'localhost',
+  user: 'root', // Note: use actual restricted user in production
+  password: '',
+  database: 'brio_db',
+  waitForConnections: true,
+  connectionLimit: 5
+});
+
+app.post('/api/showcase/chaos-sandbox', async (req, res, next) => {
+  try {
+    const { sql } = req.body;
+    if (!sql.trim().toUpperCase().startsWith('SELECT')) {
+      return res.status(400).json({ error: "Only SELECT queries are allowed in the sandbox." });
+    }
+    const [rows] = await readOnlyPool.query(sql);
+    res.json({ sql, rows });
+  } catch (err) { next(err); }
+});
+
 // --- AUTHENTICATION ---
 const loginSchema = z.object({
   email: z.string().email(),
