@@ -3,12 +3,14 @@ const mysql = require('mysql2/promise');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { z } = require('zod');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 
 const JWT_SECRET = process.env.JWT_SECRET || 'brio-super-secret-key-2026';
 
@@ -23,9 +25,14 @@ const pool = mysql.createPool({
 });
 
 // --- AUTHENTICATION ---
-app.post('/api/auth/login', async (req, res) => {
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1)
+});
+
+app.post('/api/auth/login', async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = loginSchema.parse(req.body);
     const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     if (users.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
     
@@ -35,7 +42,7 @@ app.post('/api/auth/login', async (req, res) => {
     
     const token = jwt.sign({ id: user.user_id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
     res.json({ token, user: { id: user.user_id, f_name: user.f_name, l_name: user.l_name, role: user.role, sub_tier: user.sub_tier, avatar_url: user.avatar_url } });
-  } catch (err) { res.status(500).json({ error: err.message }); }
+  } catch (err) { next(err); }
 });
 
 const authenticate = (req, res, next) => {
@@ -153,6 +160,15 @@ app.post('/api/showcase/trigger', async (req, res) => {
     const [after] = await pool.query('SELECT task_name, status FROM kanban_task WHERE project_id = ? AND lesson_id = ?', [projectId, lessonId]);
     res.json({ before, after });
   } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (err instanceof z.ZodError) {
+    return res.status(400).json({ error: "Validation failed", details: err.errors });
+  }
+  res.status(500).json({ error: err.message || "Internal Server Error" });
 });
 
 const PORT = 3000;
