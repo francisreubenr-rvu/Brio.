@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brio DB — ER Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f6fa;
+      color: #1a1a2e;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1a1a2e;
+    }
+
+    header p {
+      margin-top: 0.35rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e8e9f3;
+    }
+
+    .mermaid {
+      min-width: 900px;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 2rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: #444;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-pk  { background: #dbeafe; color: #1e40af; }
+    .badge-fk  { background: #fef3c7; color: #92400e; }
+    .badge-uk  { background: #d1fae5; color: #065f46; }
+    .badge-weak { background: #ede9fe; color: #5b21b6; }
+    .badge-mn  { background: #fce7f3; color: #9d174d; }
+    .badge-mv  { background: #e0f2fe; color: #075985; }
+
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #999;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Brio — Project-Driven Programming Learning Platform</h1>
+    <p>CS1211 Database Management System &nbsp;|&nbsp; Entity-Relationship Diagram &nbsp;|&nbsp; brio_db</p>
+  </header>
+
+  <div class="card">
+    <h2>ER Diagram (Crow's Foot Notation)</h2>
+    <div class="mermaid">
+erDiagram
+
+  %% ── STRONG ENTITIES ──────────────────────────────────────
+  USERS {
+    int     user_id      PK
+    varchar f_name
+    varchar l_name
+    varchar email        UK
+    varchar password_hash
+    text    bio
+    varchar avatar_url
+    varchar github_url
+    enum    role
+    timestamp joined_at
+    enum    sub_tier
+  }
+
+  COURSE {
+    int     course_id    PK
+    varchar title
+    varchar tech_stack
+    enum    difficulty
+    timestamp created_at
+  }
+
+  LESSON {
+    int     lesson_id    PK
+    int     course_id    FK
+    varchar title
+    text    content
+    int     lesson_no
+  }
+
+  TEAM {
+    int     team_id      PK
+    varchar team_name    UK
+    timestamp created_at
+    int     max_members
+  }
+
+  BLUEPRINT {
+    int     blueprint_id PK
+    text    description
+    enum    difficulty_est
+    timestamp generated_at
+  }
+
+  PROJECT {
+    int     project_id   PK
+    int     user_id      FK
+    int     team_id      FK
+    int     blueprint_id FK
+    varchar proj_name
+    enum    status
+    timestamp created_at
+  }
+
+  %% ── WEAK ENTITIES ────────────────────────────────────────
+  KANBAN_TASK {
+    int     project_id   FK
+    varchar task_name    PK
+    int     lesson_id    FK
+    enum    status
+    varchar skill_req
+    enum    priority
+    timestamp created_at
+  }
+
+  SUBMISSION {
+    int     submission_id PK
+    int     user_id       FK
+    timestamp sub_date
+    int     lesson_id     FK
+    int     ai_score
+    text    feedback
+    varchar code_url
+  }
+
+  %% ── JUNCTION TABLES (M:N) ────────────────────────────────
+  ENROLLMENT {
+    int     user_id      FK
+    int     course_id    FK
+    timestamp enrolled_at
+    decimal grade
+    int     progress
+  }
+
+  TEAM_MEMBER {
+    int     user_id      FK
+    int     team_id      FK
+    timestamp joined_at
+  }
+
+  TEAM_ROLE {
+    int     team_id      FK
+    int     user_id      FK
+    enum    role
+  }
+
+  %% ── MULTIVALUED ATTRIBUTE TABLES ─────────────────────────
+  LESSON_TAG {
+    int     lesson_id    FK
+    varchar tag
+  }
+
+  BLUEPRINT_TECH {
+    int     blueprint_id FK
+    varchar tech
+  }
+
+  %% ── RELATIONSHIPS ────────────────────────────────────────
+
+  %% M:N — USERS ↔ COURSE via ENROLLMENT
+  USERS    ||--o{ ENROLLMENT    : "ENROLLS IN"
+  COURSE   ||--o{ ENROLLMENT    : "enrolled by"
+
+  %% M:N — USERS ↔ TEAM via TEAM_MEMBER
+  USERS    ||--o{ TEAM_MEMBER   : "JOINS"
+  TEAM     ||--o{ TEAM_MEMBER   : "has member"
+
+  %% M:N — USERS ↔ TEAM via TEAM_ROLE (multivalued role)
+  USERS    ||--o{ TEAM_ROLE     : "has role in"
+  TEAM     ||--o{ TEAM_ROLE     : "assigns role"
+
+  %% 1:N — USERS owns PROJECT
+  USERS    ||--o{ PROJECT       : "OWNS"
+
+  %% 1:N — USERS submits SUBMISSION (weak entity)
+  USERS    ||--o{ SUBMISSION    : "SUBMITS"
+
+  %% 1:1 — BLUEPRINT used by PROJECT (blueprint_id UNIQUE in project)
+  BLUEPRINT ||--|| PROJECT      : "specifies"
+
+  %% 1:N — TEAM optionally works on PROJECT (team_id nullable)
+  TEAM     |o--o{ PROJECT       : "works on"
+
+  %% 1:N — COURSE contains LESSON (total participation on LESSON)
+  COURSE   ||--o{ LESSON        : "CONTAINS"
+
+  %% 1:N — PROJECT contains KANBAN_TASK (weak entity, composite PK)
+  PROJECT  ||--o{ KANBAN_TASK   : "CONTAINS"
+
+  %% 1:N — LESSON skill-gates KANBAN_TASK (optional FK)
+  LESSON   |o--o{ KANBAN_TASK   : "SKILL GATES"
+
+  %% 1:N — LESSON assessed by SUBMISSION (optional FK)
+  LESSON   |o--o{ SUBMISSION    : "assessed in"
+
+  %% Multivalued attributes
+  LESSON   ||--o{ LESSON_TAG    : "tagged with"
+  BLUEPRINT ||--o{ BLUEPRINT_TECH : "recommends"
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Legend</h2>
+    <div class="legend">
+      <div class="legend-item"><span class="badge badge-pk">PK</span> Primary Key</div>
+      <div class="legend-item"><span class="badge badge-fk">FK</span> Foreign Key</div>
+      <div class="legend-item"><span class="badge badge-uk">UK</span> Unique Key</div>
+      <div class="legend-item"><span class="badge badge-weak">Weak Entity</span> KANBAN_TASK, SUBMISSION — depend on parent for identity</div>
+      <div class="legend-item"><span class="badge badge-mn">M:N Junction</span> ENROLLMENT, TEAM_MEMBER, TEAM_ROLE</div>
+      <div class="legend-item"><span class="badge badge-mv">Multivalued</span> LESSON_TAG, BLUEPRINT_TECH</div>
+    </div>
+    <br/>
+    <div class="legend">
+      <div class="legend-item"><code>||--||</code>&nbsp; One-to-one (mandatory both sides)</div>
+      <div class="legend-item"><code>||--o{</code>&nbsp; One-to-many (mandatory one, optional many)</div>
+      <div class="legend-item"><code>|o--o{</code>&nbsp; One-to-many (optional both sides)</div>
+    </div>
+  </div>
+
+  <footer>
+    Darshan Jain &nbsp;·&nbsp; Francis Reuben R &nbsp;·&nbsp; Harsith BA &nbsp;|&nbsp; CS1211 DBMS &nbsp;·&nbsp; 2025–26
+  </footer>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      er: {
+        diagramPadding: 30,
+        layoutDirection: 'TB',
+        minEntityWidth: 100,
+        minEntityHeight: 75,
+        entityPadding: 15,
+        useMaxWidth: false
+      }
+    });
+  </script>
+</body>
+</html>

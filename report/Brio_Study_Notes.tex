@@ -1,0 +1,1317 @@
+\documentclass[11pt,a4paper]{article}
+
+%% ── Packages ──────────────────────────────────────────────────────────────
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, top=0.85in, bottom=0.85in, left=1in, right=1in]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath}
+
+%% ── Colours ───────────────────────────────────────────────────────────────
+\definecolor{primaryblue}{RGB}{37,99,235}
+\definecolor{darkblue}{RGB}{30,58,138}
+\definecolor{lightblue}{RGB}{219,234,254}
+\definecolor{accentgreen}{RGB}{16,185,129}
+\definecolor{lightgreen}{RGB}{209,250,229}
+\definecolor{lightyellow}{RGB}{254,249,195}
+\definecolor{lightorange}{RGB}{255,237,213}
+\definecolor{accentorange}{RGB}{234,88,12}
+\definecolor{lightpurple}{RGB}{237,233,254}
+\definecolor{accentpurple}{RGB}{124,58,237}
+\definecolor{lightred}{RGB}{254,226,226}
+\definecolor{accentred}{RGB}{185,28,28}
+\definecolor{tableheadbg}{RGB}{30,58,138}
+\definecolor{tablerowbg}{RGB}{239,246,255}
+\definecolor{codebg}{RGB}{248,249,250}
+\definecolor{bordercolor}{RGB}{203,213,225}
+\definecolor{shadecolor}{RGB}{245,245,245}
+
+%% ── Typography ────────────────────────────────────────────────────────────
+\setstretch{1.35}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+%% ── Section headings ──────────────────────────────────────────────────────
+\titleformat{\section}
+  {\normalfont\fontsize{13}{15}\selectfont\bfseries\color{darkblue}}
+  {\thesection}{0.8em}{}[\vspace{-4pt}\rule{\linewidth}{0.8pt}]
+\titleformat{\subsection}
+  {\normalfont\fontsize{11}{13}\selectfont\bfseries}
+  {\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{11}{13}\selectfont\itshape\bfseries}
+  {\thesubsubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{14pt}{4pt}
+\titlespacing*{\subsection}{0pt}{10pt}{3pt}
+\titlespacing*{\subsubsection}{0pt}{7pt}{2pt}
+
+%% ── Page style ────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{\textbf{Brio DBMS} -- Study Notes}}
+\fancyhead[R]{\small\textit{CS1211 Exam Prep}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ── Listings ──────────────────────────────────────────────────────────────
+\lstdefinestyle{sql}{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{darkblue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{accentgreen},
+  numbers=none,
+  frame=single, framerule=0.4pt,
+  rulecolor=\color{bordercolor},
+  backgroundcolor=\color{codebg},
+  breaklines=true, showstringspaces=false, tabsize=2,
+  morekeywords={DELIMITER,TRIGGER,AFTER,BEFORE,EACH,ROW,BEGIN,END,NEW,OLD,
+    SIGNAL,SQLSTATE,MESSAGE_TEXT,START,TRANSACTION,COMMIT,ROLLBACK,
+    SAVEPOINT,RELEASE,DECLARE,AUTO_INCREMENT,TINYINT,UNSIGNED,
+    ENUM,TIMESTAMP,DEFAULT,CURRENT_TIMESTAMP,INDEX,UNIQUE,REPLACE,VIEW},
+}
+\lstdefinelanguage{JavaScript}{
+  keywords={const,let,var,function,async,await,return,if,else,try,catch,import},
+  comment=[l]{//}, morecomment=[s]{/*}{*/},
+  morestring=[b]", morestring=[b]', morestring=[b]`,
+}
+\lstdefinestyle{js}{
+  language=JavaScript,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{darkblue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{accentgreen},
+  numbers=none, frame=single, framerule=0.4pt,
+  rulecolor=\color{bordercolor},
+  backgroundcolor=\color{codebg},
+  breaklines=true, showstringspaces=false, tabsize=2,
+}
+\lstset{style=sql}
+
+%% ── Study-note box environments ───────────────────────────────────────────
+% Blue: concept definition
+\newmdenv[linecolor=primaryblue, linewidth=1.5pt,
+  leftline=true, rightline=false, topline=false, bottomline=false,
+  backgroundcolor=lightblue!30,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt,
+  skipabove=6pt, skipbelow=4pt]{defbox}
+
+% Green: key point / takeaway
+\newmdenv[linecolor=accentgreen, linewidth=1.5pt,
+  leftline=true, rightline=false, topline=false, bottomline=false,
+  backgroundcolor=lightgreen!30,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt,
+  skipabove=6pt, skipbelow=4pt]{keybox}
+
+% Orange: "why?" design decision
+\newmdenv[linecolor=accentorange, linewidth=1.5pt,
+  leftline=true, rightline=false, topline=false, bottomline=false,
+  backgroundcolor=lightorange!50,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt,
+  skipabove=6pt, skipbelow=4pt]{whybox}
+
+% Purple: exam Q&A
+\newmdenv[linecolor=accentpurple, linewidth=1.5pt,
+  leftline=true, rightline=false, topline=false, bottomline=false,
+  backgroundcolor=lightpurple!40,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt,
+  skipabove=6pt, skipbelow=4pt]{qabox}
+
+% Red: common mistake / warning
+\newmdenv[linecolor=accentred, linewidth=1.5pt,
+  leftline=true, rightline=false, topline=false, bottomline=false,
+  backgroundcolor=lightred!30,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt,
+  skipabove=6pt, skipbelow=4pt]{warnbox}
+
+%% ── Helpers ───────────────────────────────────────────────────────────────
+\newcommand{\brio}{\textsc{Brio}}
+\newcommand{\kw}[1]{\textbf{\texttt{#1}}}
+\newcommand{\term}[1]{\textbf{\textit{#1}}}
+\newcommand{\T}[1]{\texttt{#1}}          % table/column name
+
+%% ── ToC depth ─────────────────────────────────────────────────────────────
+\setcounter{tocdepth}{2}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\begin{document}
+%% ══════════════════════════════════════════════════════════════════════════
+
+{%
+\thispagestyle{empty}
+\centering\Large\bfseries\color{darkblue}
+Brio DBMS Project\\[4pt]
+\normalsize\mdseries\color{black}
+Complete Study Notes --- CS1211 Exam Preparation\\[2pt]
+{\small Francis Reuben R \textbullet{} Darshan Jain \textbullet{} Harshith BA}\\[2pt]
+{\small RV University, Bengaluru \textbullet{} 2025--26}
+\par
+}
+
+\rule{\linewidth}{1pt}
+
+\tableofcontents
+
+\rule{\linewidth}{0.5pt}
+
+\newpage
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Project at a Glance}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{keybox}
+\textbf{\brio} is a full-stack programming learning platform where learners submit code,
+earn AI scores, and unlock Kanban project tasks based on lesson mastery. The entire
+skill-gate logic --- ``you must pass a lesson to unlock the next task'' --- lives in
+the MySQL database as triggers, not in the application code.
+\end{keybox}
+
+\subsection{Three-Tier Architecture}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}cll@{}}
+\toprule
+\textbf{Tier} & \textbf{Technology} & \textbf{Role} \\
+\midrule
+Presentation & Vanilla JS SPA (browser) & Three tabs: Platform / Showcase / Viz \\
+Application  & Node.js + Express 5 (\T{server.js}) & 11 REST endpoints, JWT auth, Zod validation \\
+Data         & MySQL 8 (\T{brio\_db}) & 13 tables, 3 views, 2 triggers, transactions \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{What Makes This Project Non-Trivial}
+
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item \textbf{Skill-gate trigger chain}: two chained triggers fire on every submission INSERT
+  \item \textbf{Dual connection pools}: separate read-only MySQL user for the Chaos Sandbox
+  \item \textbf{13 tables in 3NF}: strong entities, weak entities, and junction tables
+  \item \textbf{15 live SQL queries}: window functions, CTEs, recursive CTEs served via API
+  \item \textbf{JWT stateless auth}: token verified on every protected request
+\end{itemize}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Database Fundamentals (Concepts You Must Know)}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\subsection{Relational Model}
+
+\begin{defbox}
+A \term{relation} is a table. Each \term{tuple} is a row. Each \term{attribute} is a
+column. A \term{schema} is the set of table definitions. A \term{database instance} is
+the actual data stored at a point in time.
+\end{defbox}
+
+\textbf{Domain constraint}: every value in a column must come from an allowed set (e.g.\
+\T{ENUM('learner','admin')} restricts \T{role} to exactly two values).
+
+\subsection{Entity-Relationship (ER) Model}
+
+\begin{defbox}
+\textbf{Entity}: a real-world object with independent existence (e.g.\ \T{user}, \T{lesson}).\\
+\textbf{Weak entity}: identified only in relation to another entity; its PK includes a
+  FK to the owner (e.g.\ \T{kanban\_task} needs \T{proj\_id} to be unique).\\
+\textbf{Relationship}: association between entities. \textbf{1:N} (one user owns many
+  projects), \textbf{M:N} (many users enroll in many lessons $\to$ junction table).\\
+\textbf{Participation}: \textit{total} (every entity participates) vs
+  \textit{partial} (some may not).
+\end{defbox}
+
+\subsubsection{Brio ER in Plain Language}
+
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item One \T{user} owns many \T{project}s (1:N, partial — not every user has a project)
+  \item One \T{project} has many \T{kanban\_task}s (1:N, total — a task must belong to a project)
+  \item Many \T{user}s enroll in many \T{lesson}s $\to$ \T{enrollment} junction table (M:N)
+  \item One \T{kanban\_task} is gated on one \T{lesson} via \T{lesson\_id} FK
+  \item One \T{submission} belongs to one \T{user} + one \T{lesson} (weak entity)
+\end{itemize}
+
+\subsection{Keys}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{3.2cm}p{9.5cm}@{}}
+\toprule
+\textbf{Key Type} & \textbf{What It Means / Brio Example} \\
+\midrule
+\textbf{Primary Key (PK)} & Uniquely identifies each row. \T{user\_id INT AUTO\_INCREMENT} in \T{user}. \\
+\textbf{Composite PK} & PK spanning multiple columns. \T{(user\_id, lesson\_id)} in \T{enrollment}. \\
+\textbf{Foreign Key (FK)} & References the PK of another table. \T{owner\_id} in \T{project} $\to$ \T{user.user\_id}. \\
+\textbf{Unique Key} & Not a PK but must be unique. \T{email} and \T{username} in \T{user}. \\
+\textbf{Surrogate Key} & Artificial numeric PK (\T{AUTO\_INCREMENT}). Used on strong entities (\T{sub\_id}). \\
+\textbf{Natural Key} & Meaningful domain value. Not used in Brio's PKs but \T{email} qualifies. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{whybox}
+\textbf{Why composite PKs on junction tables?} \T{enrollment(user\_id, lesson\_id)} —
+because a \textit{row in enrollment is identified by both values together}. Adding a
+surrogate \T{enrollment\_id} would allow duplicate (user, lesson) pairs, which is
+semantically wrong. The composite PK enforces the uniqueness constraint for free.
+\end{whybox}
+
+\subsection{Normalisation}
+
+The goal: eliminate \textbf{insertion}, \textbf{deletion}, and \textbf{update anomalies}
+by ensuring each fact is stored in exactly one place.
+
+\subsubsection{1NF — First Normal Form}
+\begin{defbox}
+All attribute values are \textbf{atomic} (no lists, no repeating groups). Each column
+holds a single indivisible value.\\[4pt]
+\textit{Violation example}: storing \T{tags = "python,oop,functions"} in \T{lesson}.\\
+\textit{Brio fix}: separate \T{lesson\_tag(lesson\_id, tag)} table — each tag is its
+own row.
+\end{defbox}
+
+\subsubsection{2NF — Second Normal Form}
+\begin{defbox}
+1NF + every non-key attribute is \textbf{fully functionally dependent} on the
+\textit{entire} primary key (no partial dependency).\\[4pt]
+\textit{Only applies to composite PKs.}\\
+\textit{Example}: if \T{enrollment} had a column \T{lesson\_title}, that depends only
+on \T{lesson\_id} (partial dependency) $\to$ move it to the \T{lesson} table.\\
+\textit{Brio}: \T{enrollment(user\_id, lesson\_id, enrolled\_at)} — \T{enrolled\_at}
+depends on the full composite PK, so it's in 2NF.
+\end{defbox}
+
+\subsubsection{3NF — Third Normal Form}
+\begin{defbox}
+2NF + no \textbf{transitive dependency} (non-key attribute depends on another non-key
+attribute).\\[4pt]
+\textit{Example}: if \T{lesson} stored \T{subject\_name} alongside \T{subject\_id},
+then \T{lesson\_id $\to$ subject\_id $\to$ subject\_name} is a transitive dependency.\\
+\textit{Brio fix}: \T{subject\_name} lives in the \T{subject} table; \T{lesson} only
+stores \T{subject\_id} FK. Query it with a JOIN when needed.
+\end{defbox}
+
+\begin{keybox}
+\textbf{All 13 Brio tables are in 3NF.} The payoff: when a subject name changes, you
+update one row in \T{subject} and every lesson that references it automatically reflects
+the change.
+\end{keybox}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{The Brio Schema --- All 13 Tables}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{3.5cm}p{2cm}p{7cm}@{}}
+\toprule
+\rowcolor{tableheadbg}
+{\color{white}\textbf{Table}} &
+{\color{white}\textbf{Type}} &
+{\color{white}\textbf{Purpose \& Key Points}} \\
+\midrule
+\rowcolor{tablerowbg}
+\T{user}              & Strong     & Central entity. PK: \T{user\_id}. \T{role ENUM('learner','admin')}. Passwords bcrypt-hashed. \\
+\T{lesson}            & Strong     & Lesson catalogue. FK $\to$ \T{subject}, \T{programming\_language}. \T{difficulty ENUM}. \\
+\rowcolor{tablerowbg}
+\T{subject}           & Strong     & Subject master (Python, Web Dev\ldots{}). \T{subject\_name UNIQUE}. \\
+\T{programming\_language} & Strong & Language master (Python, JS\ldots{}). Referenced by \T{lesson}. \\
+\rowcolor{tablerowbg}
+\T{project}           & Dependent  & Owned by one user (FK \T{owner\_id}). \T{status ENUM('active','shipped','archived')}. \\
+\T{kanban\_task}      & Weak       & Linked to \T{project} + gated on \T{lesson}. \T{status ENUM('locked','in\_progress','done')}. \\
+\rowcolor{tablerowbg}
+\T{submission}        & Weak       & Event source for triggers. Stores \T{ai\_score TINYINT(0--100)}. \\
+\T{lesson\_tag}       & Multivalued & Tags per lesson (1NF compliance). PK: \T{(lesson\_id, tag)}. \\
+\rowcolor{tablerowbg}
+\T{project\_milestone} & Dependent & Milestones with optional \T{depends\_on} self-FK (used in Q15 recursive CTE). \\
+\T{enrollment}        & Junction   & M:N user$\leftrightarrow$lesson. PK: \T{(user\_id, lesson\_id)}. \\
+\rowcolor{tablerowbg}
+\T{team\_member}      & Junction   & M:N user$\leftrightarrow$project with \T{role} attribute. \\
+\T{lesson\_prerequisite} & Junction & M:N lesson$\leftrightarrow$lesson (prerequisite chain). Used in Q9 self-JOIN. \\
+\rowcolor{tablerowbg}
+\T{user\_badge}       & Junction   & Badges earned by users. PK: \T{(user\_id, badge\_name)}. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The Skill-Gate Data Model}
+
+The key relationship that powers everything:
+
+\begin{center}
+\T{kanban\_task.lesson\_id} $\to$ \T{lesson.lesson\_id}
+\end{center}
+
+This FK says: \textit{``this Kanban task is gated behind this lesson.''}
+When a user submits a lesson with \T{ai\_score $\geq$ 70}, the trigger looks for all
+\T{kanban\_task} rows where \T{lesson\_id} matches AND \T{proj\_id} belongs to the
+submitting user's projects, then flips \T{status} from \T{'locked'} to
+\T{'in\_progress'}.
+
+\subsection{FK Actions You Must Know}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{2.8cm}p{9.5cm}@{}}
+\toprule
+\textbf{Policy} & \textbf{Behaviour / Where Used in Brio} \\
+\midrule
+\T{CASCADE}    & Delete/update parent $\to$ delete/update all children. \T{project(owner\_id)} cascades on user delete. \\
+\T{RESTRICT}   & Prevent parent delete if children exist. \T{lesson(subject\_id)} — can't delete a subject that has lessons. \\
+\T{SET NULL}   & Set FK to NULL on parent delete. \T{kanban\_task(lesson\_id)} — task survives if lesson is deleted (just loses its gate). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{DDL --- Data Definition Language}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\subsection{Data Types Used in Brio}
+
+\begin{multicols}{2}
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item \kw{INT AUTO\_INCREMENT} — surrogate PKs
+  \item \kw{VARCHAR(n)} — strings with max length
+  \item \kw{TEXT} — unbounded text (bio, content)
+  \item \kw{TINYINT UNSIGNED} — 0–255, used for \T{ai\_score} (0–100)
+  \item \kw{ENUM('a','b')} — type-safe categorical values
+  \item \kw{TIMESTAMP DEFAULT CURRENT\_TIMESTAMP} — auto-records creation time
+  \item \kw{DATE} — date only, no time (deadline)
+\end{itemize}
+\end{multicols}
+
+\subsection{Constraints at a Glance}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{2.5cm}p{10cm}@{}}
+\toprule
+\textbf{Constraint} & \textbf{What It Does} \\
+\midrule
+\T{PRIMARY KEY}    & Unique + NOT NULL identifier. Can be single or composite. \\
+\T{NOT NULL}       & Column must always have a value. \\
+\T{UNIQUE}         & Value must be unique across all rows (\T{email}, \T{username}). \\
+\T{FOREIGN KEY}    & References PK of another table; enforces referential integrity. \\
+\T{ENUM}           & Column value must be one of a fixed set. Database rejects invalid values. \\
+\T{DEFAULT}        & Value used if none supplied (\T{role DEFAULT 'learner'}). \\
+\T{INDEX}          & Speeds up WHERE/JOIN queries on that column. Not a constraint per se. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Annotated: The Three Most Important Tables}
+
+\begin{lstlisting}[style=sql, caption={\T{user} table --- central auth entity}]
+CREATE TABLE user (
+    user_id    INT AUTO_INCREMENT PRIMARY KEY,  -- surrogate PK
+    username   VARCHAR(50)  NOT NULL UNIQUE,    -- login handle
+    email      VARCHAR(100) NOT NULL UNIQUE,    -- contact + alt login
+    password   VARCHAR(255) NOT NULL,           -- NEVER plaintext; bcrypt hash
+    role       ENUM('learner','admin') DEFAULT 'learner',
+    bio        TEXT,                            -- nullable
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_user_email (email)                -- speeds up login lookup
+) ENGINE=InnoDB;                               -- InnoDB = FK support + transactions
+\end{lstlisting}
+
+\begin{lstlisting}[style=sql, caption={\T{kanban\_task} --- the skill-gate pivot}]
+CREATE TABLE kanban_task (
+    task_id    INT AUTO_INCREMENT PRIMARY KEY,
+    proj_id    INT NOT NULL,
+    lesson_id  INT,            -- NULL = no gate (free task)
+    title      VARCHAR(200) NOT NULL,
+    status     ENUM('locked','in_progress','done') DEFAULT 'locked',
+    priority   INT DEFAULT 5,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (proj_id)   REFERENCES project(proj_id)  ON DELETE CASCADE,
+    FOREIGN KEY (lesson_id) REFERENCES lesson(lesson_id) ON DELETE SET NULL
+    -- SET NULL so deleting a lesson doesn't cascade-delete all tasks
+) ENGINE=InnoDB;
+\end{lstlisting}
+
+\begin{lstlisting}[style=sql, caption={\T{submission} --- trigger event source}]
+CREATE TABLE submission (
+    sub_id       INT AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT NOT NULL,
+    lesson_id    INT NOT NULL,
+    ai_score     TINYINT UNSIGNED NOT NULL,  -- CHECK: 0-100 via UNSIGNED + app validation
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)   REFERENCES user(user_id)     ON DELETE CASCADE,
+    FOREIGN KEY (lesson_id) REFERENCES lesson(lesson_id) ON DELETE RESTRICT
+    -- RESTRICT: don't delete a lesson that has submission records
+) ENGINE=InnoDB;
+\end{lstlisting}
+
+\begin{whybox}
+\textbf{Why InnoDB?} The \T{MyISAM} engine doesn't support foreign keys or transactions.
+\T{InnoDB} (MySQL's default) supports both, making it the only valid choice for a
+schema with 13 FK relationships and ACID-compliant transactions.
+\end{whybox}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{DML --- Data Manipulation Language \& Seed Data}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{defbox}
+\textbf{Seed data strategy}: insert in dependency order — strong entities first, then
+dependent/weak entities, then junction tables. You cannot insert a \T{kanban\_task}
+before the \T{project} it belongs to exists.
+\end{defbox}
+
+\textbf{Insertion order}: \T{subject} $\to$ \T{programming\_language} $\to$ \T{user} $\to$ \T{lesson}
+$\to$ \T{project} $\to$ \T{kanban\_task} $\to$ \T{enrollment} $\to$ \T{submission} $\to$ \T{team\_member}
+
+\textbf{bcrypt password hashing}: passwords are never stored as plaintext.
+\T{bcrypt.hash(password, 10)} produces a 60-character hash like
+\T{\$2b\$10\$...}. During login, \T{bcrypt.compare(input, hash)} returns
+true/false. The salt rounds (10) control how slow the hash is — making brute-force
+expensive.
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{The 15 Showcase Queries --- Every Concept Explained}
+%% ══════════════════════════════════════════════════════════════════════════
+
+Each query teaches one or more SQL concepts. Know \textit{what} the concept is,
+\textit{why} it's used, and \textit{what} the query returns.
+
+\subsection{Q1 — GROUP BY + Aggregate Functions}
+
+\begin{defbox}
+\T{GROUP BY} collapses all rows with the same value into one summary row. Aggregate
+functions (\T{COUNT}, \T{AVG}, \T{MAX}, \T{MIN}, \T{SUM}) operate over each group.
+\T{LEFT JOIN} ensures lessons with \textit{zero} submissions still appear (result:
+\T{total\_submissions = 0}).
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+SELECT l.lesson_id, l.title,
+       COUNT(s.sub_id)           AS total_submissions,
+       ROUND(AVG(s.ai_score), 2) AS average_score,
+       MAX(s.ai_score)           AS highest_score
+FROM lesson l
+LEFT JOIN submission s ON l.lesson_id = s.lesson_id
+GROUP BY l.lesson_id, l.title
+ORDER BY total_submissions DESC;
+\end{lstlisting}
+
+\begin{keybox}
+\textbf{INNER vs LEFT JOIN}: INNER JOIN would omit lessons with no submissions. LEFT JOIN
+keeps all lessons and puts NULL for aggregates when no submissions exist. Always ask:
+``do I want rows with no matching records?'' $\to$ YES $\to$ LEFT JOIN.
+\end{keybox}
+
+\subsection{Q2 — Multi-Table INNER JOIN}
+
+\begin{defbox}
+\T{INNER JOIN} returns only rows that have a match in BOTH tables. Join multiple tables
+by chaining \T{JOIN ... ON ...} clauses. Alias each table to keep columns readable.
+\end{defbox}
+
+Purpose: learner profiles with their enrolment counts — join \T{user}, \T{enrollment},
+and \T{lesson} in one query.
+
+\subsection{Q3 — Subquery with NOT IN}
+
+\begin{defbox}
+A \term{subquery} is a SELECT inside another SELECT. \T{NOT IN (SELECT ...)} filters
+rows that do NOT appear in the inner result set.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+SELECT lesson_id, title FROM lesson
+WHERE lesson_id NOT IN (
+    SELECT DISTINCT lesson_id FROM submission
+);
+-- Returns lessons that NO learner has ever submitted
+\end{lstlisting}
+
+\begin{warnbox}
+\textbf{Pitfall}: If the subquery returns any NULL, \T{NOT IN} behaves unexpectedly
+(everything fails). Use \T{NOT EXISTS} when NULLs are possible. Here \T{lesson\_id}
+is a FK — it can't be NULL — so \T{NOT IN} is safe.
+\end{warnbox}
+
+\subsection{Q4 — Window Function: RANK()}
+
+\begin{defbox}
+A \term{window function} computes a value across a ``window'' of rows related to the
+current row, without collapsing rows (unlike GROUP BY).\\[4pt]
+\T{RANK() OVER (ORDER BY col DESC)} assigns rank 1 to the highest, 2 to next, etc.
+Ties get the same rank; the next rank skips (1, 1, 3...).\\
+\T{PARTITION BY} restarts ranking per group.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+SELECT u.username,
+       ROUND(AVG(s.ai_score), 2) AS avg_score,
+       RANK() OVER (ORDER BY AVG(s.ai_score) DESC) AS performance_rank
+FROM user u
+JOIN submission s ON u.user_id = s.user_id
+WHERE u.role = 'learner'
+GROUP BY u.user_id, u.username
+ORDER BY performance_rank;
+\end{lstlisting}
+
+\begin{keybox}
+Window functions (\T{RANK}, \T{DENSE\_RANK}, \T{ROW\_NUMBER}, \T{LAG}, \T{LEAD})
+require the \T{OVER} clause. They were introduced in SQL:2003 and are available in
+MySQL 8+. This is one reason the project specifies \textbf{MySQL 8}.
+\end{keybox}
+
+\subsection{Q5 — Common Table Expression (CTE)}
+
+\begin{defbox}
+A \term{CTE} (\T{WITH name AS (...)}) defines a named temporary result set valid for
+one query. It improves readability and allows referencing the same subquery multiple
+times without repeating it.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+WITH high_performers AS (
+    SELECT u.user_id, u.username, u.email,
+           ROUND(AVG(s.ai_score), 2) AS avg_score
+    FROM user u JOIN submission s ON u.user_id = s.user_id
+    GROUP BY u.user_id, u.username, u.email
+    HAVING AVG(s.ai_score) >= 85        -- filter: only >=85 avg
+)
+SELECT hp.*, COUNT(e.lesson_id) AS enrolled_lessons
+FROM high_performers hp
+LEFT JOIN enrollment e ON hp.user_id = e.user_id
+GROUP BY hp.user_id, hp.username, hp.email, hp.avg_score
+ORDER BY hp.avg_score DESC;
+\end{lstlisting}
+
+\subsection{Q6 — CASE Expression}
+
+\begin{defbox}
+\T{CASE WHEN ... THEN ... ELSE ... END} is SQL's if-else. It creates a computed column
+from conditional logic. Used here to bucket raw scores into labelled performance bands.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+CASE
+    WHEN s.ai_score >= 90 THEN 'Excellent'
+    WHEN s.ai_score >= 70 THEN 'Good'
+    WHEN s.ai_score >= 50 THEN 'Average'
+    ELSE 'Needs Work'
+END AS performance_band
+\end{lstlisting}
+
+\subsection{Q7 — Correlated Subquery}
+
+\begin{defbox}
+A \term{correlated subquery} references a column from the outer query — it is
+re-executed once per outer row (unlike a regular subquery which runs once).
+Used here to find each learner's \textit{latest} submission per lesson.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+WHERE s.submitted_at = (
+    SELECT MAX(s2.submitted_at) FROM submission s2
+    WHERE s2.user_id = s.user_id AND s2.lesson_id = s.lesson_id
+)
+-- s2 references s from the outer query -- that's correlation
+\end{lstlisting}
+
+\subsection{Q8 — EXISTS}
+
+\begin{defbox}
+\T{EXISTS (subquery)} returns TRUE if the subquery returns at least one row.
+Unlike \T{IN}, it short-circuits on the first match (faster for large sets).
+Used here: ``find learners enrolled in at least one project.''
+\end{defbox}
+
+\subsection{Q9 — Self-JOIN}
+
+\begin{defbox}
+A \term{self-JOIN} joins a table to itself by aliasing it twice.
+Used here on \T{lesson\_prerequisite} to display prerequisite chains:
+``Lesson B requires Lesson A'' $\to$ join lesson to itself via the prerequisite table.
+\end{defbox}
+
+\subsection{Q10 — Date Functions}
+
+\begin{lstlisting}[style=sql]
+WHERE s.submitted_at >= NOW() - INTERVAL 7 DAY
+-- Returns submissions from the last 7 days
+-- NOW() = current datetime; DATE_SUB(NOW(), INTERVAL 7 DAY) is equivalent
+\end{lstlisting}
+
+\subsection{Q11 — LEFT JOIN with Computed Column}
+
+Joins \T{project} to \T{kanban\_task} and computes completion percentage:
+\begin{lstlisting}[style=sql]
+ROUND(SUM(kt.status = 'done') * 100.0 / NULLIF(COUNT(kt.task_id), 0), 1)
+AS completion_pct
+-- SUM(condition) counts TRUEs (MySQL treats TRUE=1, FALSE=0)
+-- NULLIF prevents division by zero (returns NULL instead)
+\end{lstlisting}
+
+\subsection{Q12 — HAVING with Aggregate Condition}
+
+\begin{defbox}
+\T{WHERE} filters rows \textit{before} grouping. \T{HAVING} filters \textit{after}
+grouping, so it can use aggregate functions.\\
+``Find subjects where the average score across all submissions is below 60.''
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+GROUP BY l.subject_id, s.subject_name
+HAVING AVG(sub.ai_score) < 60
+\end{lstlisting}
+
+\subsection{Q13 — UNION}
+
+\begin{defbox}
+\T{UNION} stacks two result sets vertically. Both must have the same number of columns
+with compatible types. \T{UNION} removes duplicates; \T{UNION ALL} keeps them.
+Used here: combine learner and admin rosters into a single unified list.
+\end{defbox}
+
+\subsection{Q14 — DENSE\_RANK()}
+
+\begin{defbox}
+\T{DENSE\_RANK()} is like \T{RANK()} but with \textit{no gaps}: ties get the same rank
+and the next rank is consecutive (1, 1, 2... vs RANK's 1, 1, 3...).
+Used here: top 3 lessons by submission volume.
+\end{defbox}
+
+\subsection{Q15 — Recursive CTE}
+
+\begin{defbox}
+A \term{recursive CTE} calls itself. Structure:
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item \textbf{Anchor member}: the base case (starting rows)
+  \item \textbf{Recursive member}: joins the CTE to itself to go one level deeper
+  \item Terminates when no new rows are added
+\end{itemize}
+Used here: traverse the \T{project\_milestone} dependency chain — milestone B depends
+on milestone A, which depends on milestone Root.
+\end{defbox}
+
+\begin{lstlisting}[style=sql]
+WITH RECURSIVE milestone_chain AS (
+    -- Anchor: root milestones (no dependencies)
+    SELECT milestone_id, title, depends_on, 0 AS depth
+    FROM project_milestone
+    WHERE depends_on IS NULL
+    UNION ALL
+    -- Recursive: each milestone that depends on one already in the CTE
+    SELECT pm.milestone_id, pm.title, pm.depends_on, mc.depth + 1
+    FROM project_milestone pm
+    JOIN milestone_chain mc ON pm.depends_on = mc.milestone_id
+)
+SELECT * FROM milestone_chain ORDER BY depth, milestone_id;
+\end{lstlisting}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Database Views}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{defbox}
+A \term{view} is a named, stored SELECT query. When you query a view, MySQL executes
+the underlying SELECT dynamically — views always reflect current data.
+Benefits: encapsulate complex JOINs, simplify API queries, restrict column visibility.
+\end{defbox}
+
+\begin{whybox}
+\textbf{Why use views in Brio?} Each API endpoint executes one simple \T{SELECT * FROM
+view WHERE user\_id = ?}. Without views, every endpoint would repeat complex 4-table
+JOINs. Views also make the backend code readable and testable independently of the SQL.
+\end{whybox}
+
+\subsection{View 1: learner\_dashboard\_view}
+
+Used by \T{GET /api/profile/me}. Aggregates per-learner stats.
+
+\begin{lstlisting}[style=sql]
+CREATE OR REPLACE VIEW learner_dashboard_view AS
+SELECT u.user_id, u.username, u.email, u.bio,
+    COUNT(DISTINCT e.lesson_id)  AS enrolled_courses,  -- DISTINCT avoids dup count
+    ROUND(AVG(s.ai_score), 2)    AS avg_progress,
+    COUNT(s.sub_id)              AS total_submissions,
+    ROUND(AVG(CASE WHEN s.ai_score IS NOT NULL
+                   THEN s.ai_score END), 2) AS avg_score
+FROM user u
+LEFT JOIN enrollment e ON u.user_id = e.user_id   -- LEFT: include users with 0 enrollments
+LEFT JOIN submission  s ON u.user_id = s.user_id  -- LEFT: include users with 0 submissions
+WHERE u.role = 'learner'
+GROUP BY u.user_id, u.username, u.email, u.bio;
+\end{lstlisting}
+
+\subsection{View 2: project\_kanban\_view}
+
+Used by \T{GET /api/projects}. Per-project task breakdown.
+
+\begin{lstlisting}[style=sql]
+CREATE OR REPLACE VIEW project_kanban_view AS
+SELECT p.proj_id, p.title, p.status, p.deadline,
+    COUNT(kt.task_id)                             AS total_tasks,
+    SUM(kt.status = 'done')                       AS done_tasks,
+    SUM(kt.status = 'in_progress')                AS in_progress_tasks,
+    SUM(kt.status = 'locked')                     AS locked_tasks,
+    ROUND(SUM(kt.status = 'done') * 100.0
+          / NULLIF(COUNT(kt.task_id), 0), 1)      AS completion_pct
+FROM project p
+LEFT JOIN kanban_task kt ON p.proj_id = kt.proj_id
+GROUP BY p.proj_id, p.title, p.status, p.deadline;
+-- completion_pct is DERIVED at query time -- never stored, never stale
+\end{lstlisting}
+
+\subsection{View 3: skill\_gate\_compliance\_view}
+
+Used by the Showcase module. Shows \textit{why} each locked task is locked.
+
+\begin{lstlisting}[style=sql]
+CREATE OR REPLACE VIEW skill_gate_compliance_view AS
+SELECT kt.task_id, kt.title AS task_title, kt.status AS task_status,
+    l.title AS gate_lesson, u.username,
+    MAX(s.ai_score) AS best_score,
+    CASE
+        WHEN MAX(s.ai_score) >= 70 THEN 'Eligible to unlock'
+        WHEN MAX(s.ai_score) IS NULL THEN 'Lesson not submitted yet'
+        ELSE 'Score too low (< 70 required)'
+    END AS gate_status
+FROM kanban_task kt
+JOIN project p ON kt.proj_id   = p.proj_id
+JOIN user    u ON p.owner_id   = u.user_id
+JOIN lesson  l ON kt.lesson_id = l.lesson_id
+LEFT JOIN submission s ON s.lesson_id = kt.lesson_id AND s.user_id = u.user_id
+WHERE kt.status = 'locked'
+GROUP BY kt.task_id, kt.title, kt.status, l.title, u.username;
+\end{lstlisting}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Triggers}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{defbox}
+A \term{trigger} is a stored procedure that fires automatically when a specified DML
+event (INSERT, UPDATE, DELETE) occurs on a table.\\[4pt]
+Syntax: \T{CREATE TRIGGER name \{BEFORE|AFTER\} \{INSERT|UPDATE|DELETE\} ON table FOR
+EACH ROW BEGIN ... END}\\[4pt]
+\T{NEW.column} = the new row value (INSERT/UPDATE).\\
+\T{OLD.column} = the old row value (UPDATE/DELETE).
+\end{defbox}
+
+\subsection{The Two-Trigger Skill-Gate Chain}
+
+\textbf{The complete flow when a learner submits a lesson:}
+
+\begin{enumerate}[nosep, leftmargin=2em]
+  \item API receives \T{POST /api/submit} with \T{\{lesson\_id, ai\_score\}}
+  \item \T{INSERT INTO submission (user\_id, lesson\_id, ai\_score)}
+  \item \textbf{Trigger 1 fires} (AFTER INSERT on \T{submission})
+  \item If \T{NEW.ai\_score >= 70}: UPDATE all \T{kanban\_task} rows WHERE \T{status='locked'} AND \T{lesson\_id=NEW.lesson\_id} AND task belongs to submitter's projects $\to$ set \T{status='in\_progress'}
+  \item \textbf{Trigger 2 fires} (AFTER UPDATE on \T{kanban\_task})
+  \item If ALL tasks in the project are \T{status='done'}: UPDATE \T{project} SET \T{status='shipped'}
+\end{enumerate}
+
+\begin{lstlisting}[style=sql, caption={Trigger 1: unlock tasks on qualifying score}]
+DELIMITER $$
+CREATE TRIGGER trg_unlock_task_after_submission
+AFTER INSERT ON submission
+FOR EACH ROW
+BEGIN
+    IF NEW.ai_score >= 70 THEN
+        UPDATE kanban_task
+        SET    status = 'in_progress'
+        WHERE  status    = 'locked'
+          AND  lesson_id = NEW.lesson_id       -- matches the lesson just submitted
+          AND  proj_id IN (
+              SELECT proj_id FROM project
+              WHERE  owner_id = NEW.user_id   -- only THIS user's projects
+          );
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\begin{lstlisting}[style=sql, caption={Trigger 2: auto-ship project when all tasks done}]
+DELIMITER $$
+CREATE TRIGGER trg_auto_ship_project
+AFTER UPDATE ON kanban_task
+FOR EACH ROW
+BEGIN
+    DECLARE remaining_tasks INT;
+    SELECT COUNT(*) INTO remaining_tasks
+    FROM   kanban_task
+    WHERE  proj_id = NEW.proj_id AND status != 'done';
+
+    IF remaining_tasks = 0 THEN
+        UPDATE project SET status = 'shipped'
+        WHERE  proj_id = NEW.proj_id;
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\begin{whybox}
+\textbf{Why enforce the skill-gate in the database (trigger) rather than in the Node.js
+API code?}
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item Application code can be bypassed (direct DB insert, script, admin tool)
+  \item A trigger fires on \textit{every} INSERT regardless of what caused it
+  \item The rule is a \textit{data integrity rule} — it belongs in the data layer
+  \item Separation of concerns: the business rule isn't scattered across endpoints
+\end{itemize}
+\end{whybox}
+
+\begin{warnbox}
+\textbf{MySQL limitation}: a trigger cannot modify the same table it fires on
+(prevents infinite loops). Trigger 1 modifies \T{kanban\_task}; Trigger 2 fires on
+\T{kanban\_task} and modifies \T{project} — no circular reference.
+\end{warnbox}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Transactions and ACID}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\subsection{ACID Properties}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{2.4cm}p{10cm}@{}}
+\toprule
+\textbf{Property} & \textbf{Meaning / Brio Example} \\
+\midrule
+\textbf{Atomicity}    & Either ALL operations in a transaction commit or NONE do. Enrollment + submission must both succeed or both fail. \\
+\textbf{Consistency}  & DB moves from one valid state to another. FK constraints remain satisfied after commit. \\
+\textbf{Isolation}    & Concurrent transactions don't see each other's intermediate states. Two users submitting simultaneously don't interfere. \\
+\textbf{Durability}   & Once committed, changes survive crashes (InnoDB writes to disk via redo log). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Transaction Syntax}
+
+\begin{lstlisting}[style=sql]
+START TRANSACTION;
+SAVEPOINT before_enrollment;          -- snapshot point
+
+INSERT INTO enrollment (user_id, lesson_id, enrolled_at)
+VALUES (1, 3, NOW());
+
+-- Check for duplicate
+IF (SELECT COUNT(*) FROM enrollment WHERE user_id=1 AND lesson_id=3) > 1 THEN
+    ROLLBACK TO SAVEPOINT before_enrollment;   -- undo only to savepoint
+    SELECT 'Error: duplicate enrollment' AS result;
+ELSE
+    RELEASE SAVEPOINT before_enrollment;       -- discard savepoint
+    COMMIT;                                    -- persist changes
+    SELECT 'Enrolled successfully' AS result;
+END IF;
+\end{lstlisting}
+
+\begin{keybox}
+\textbf{SAVEPOINT} allows partial rollback. \T{ROLLBACK TO SAVEPOINT name} undoes
+everything after the savepoint but keeps earlier operations.
+\T{ROLLBACK} (no savepoint) undoes the entire transaction.
+\end{keybox}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Backend Architecture}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\subsection{Express 5 Monolith}
+
+Everything lives in \T{website/server.js}. One file = all 11 route handlers + middleware
++ pool setup. This is intentional for educational clarity. In production you'd split
+into routes/, controllers/, services/, repositories/.
+
+\subsection{Dual Connection Pools}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{3.5cm}p{3.5cm}p{5.5cm}@{}}
+\toprule
+\textbf{Pool} & \textbf{MySQL User} & \textbf{Used By} \\
+\midrule
+Primary (\T{pool})         & read-write user & All 9 protected API endpoints \\
+Read-only (\T{readOnlyPool}) & SELECT-only user & \T{/api/showcase/chaos-sandbox} only \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}[style=js]
+const pool = mysql.createPool({          // 10 connections, read-write
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  connectionLimit: 10,
+  // ...
+});
+
+const readOnlyPool = mysql.createPool({ // 5 connections, SELECT-only
+  user: process.env.DB_READONLY_USER,   // MySQL user has no INSERT/UPDATE/DELETE grants
+  connectionLimit: 5,
+});
+\end{lstlisting}
+
+\begin{whybox}
+\textbf{Why a separate read-only pool for the Chaos Sandbox?}
+The Chaos Sandbox lets anyone type arbitrary SQL. Two defence layers:
+\begin{enumerate}[nosep, leftmargin=1.5em]
+  \item Server-side: reject any query not starting with \T{SELECT} (easily bypassed)
+  \item Database-level: the MySQL user itself has no \T{INSERT}/\T{UPDATE}/\T{DELETE} grants
+\end{enumerate}
+Layer 2 is the real guarantee. Even if a crafty user bypasses the Node.js check via
+a subquery trick, the DB refuses to execute DML.
+\end{whybox}
+
+\subsection{JWT Authentication}
+
+\begin{defbox}
+\term{JSON Web Token (JWT)}: a stateless authentication token. Structure:
+\texttt{Header.Payload.Signature} (base64-encoded, dot-separated).
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item \textbf{Stateless}: the server doesn't store sessions — the token carries the user info
+  \item \textbf{Expiry}: Brio tokens expire after 24 hours
+  \item \textbf{Signature}: signed with \T{JWT\_SECRET} — tampered tokens fail verification
+\end{itemize}
+\end{defbox}
+
+\begin{lstlisting}[style=js]
+// Login: verify password -> issue token
+const token = jwt.sign(
+  { userId: user.user_id, role: user.role },
+  process.env.JWT_SECRET,
+  { expiresIn: '24h' }
+);
+
+// Middleware: verify token on every protected route
+function authenticate(req, res, next) {
+  const token = req.headers['authorization']?.slice(7); // strip "Bearer "
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { id: decoded.userId, role: decoded.role };
+    next();
+  } catch {
+    res.status(403).json({ error: 'Invalid or expired token' });
+  }
+}
+\end{lstlisting}
+
+\subsection{Zod Input Validation}
+
+\begin{defbox}
+\textbf{Zod} validates request bodies at runtime with a schema. If the body doesn't
+match, Zod throws a \T{ZodError} which the global error handler converts to
+\T{400 Validation failed \{details\}}.
+This prevents malformed data reaching the database layer.
+\end{defbox}
+
+\begin{lstlisting}[style=js]
+const { ai_score, lesson_id } = z.object({
+  ai_score:  z.number().int().min(0).max(100),
+  lesson_id: z.number().int().positive(),
+}).parse(req.body);
+// If parse() throws, the global error handler returns 400 automatically
+\end{lstlisting}
+
+\subsection{All 11 API Endpoints}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{5.5cm}p{1.2cm}p{6.3cm}@{}}
+\toprule
+\rowcolor{tableheadbg}
+{\color{white}\textbf{Route}} &
+{\color{white}\textbf{Auth}} &
+{\color{white}\textbf{Purpose}} \\
+\midrule
+\rowcolor{tablerowbg}
+\T{POST /api/auth/login}              & None & bcrypt verify $\to$ JWT \\
+\T{GET /api/profile/me}               & JWT  & learner\_dashboard\_view \\
+\rowcolor{tablerowbg}
+\T{POST /api/profile/update}          & JWT  & Update \T{bio} \\
+\T{GET /api/projects}                 & JWT  & project\_kanban\_view \\
+\rowcolor{tablerowbg}
+\T{GET /api/kanban/:projectId}        & JWT  & Tasks by priority \\
+\T{GET /api/lessons}                  & JWT  & Enrolled lessons + scores \\
+\rowcolor{tablerowbg}
+\T{POST /api/submit}                  & JWT  & INSERT submission $\to$ triggers fire \\
+\T{GET /api/showcase/stats}           & None & Live user/project/submission counts \\
+\rowcolor{tablerowbg}
+\T{GET /api/showcase/queries}         & None & Descriptor list for 15 queries \\
+\T{POST /api/showcase/query}          & None & Execute query by ID (Q1--Q15, V1--V3) \\
+\rowcolor{tablerowbg}
+\T{POST /api/showcase/chaos-sandbox}  & None & Arbitrary SELECT via read-only pool \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Frontend Architecture}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\begin{defbox}
+\textbf{Vanilla JS SPA}: no React, no Vue, no build step. All JS runs directly in the
+browser from \T{website/public/}. Three ``tabs'' are really three \T{<div>} sections
+shown/hidden based on \T{window.location.hash}.
+\end{defbox}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{2.8cm}p{2.5cm}p{7.5cm}@{}}
+\toprule
+\textbf{Tab} & \textbf{Auth?} & \textbf{What it shows} \\
+\midrule
+\textbf{Platform}    & JWT required & Learner dashboard: stats, kanban board, lesson list \\
+\textbf{Showcase}    & None          & Live query runner (Q1-Q15), view demos, Chaos Sandbox \\
+\textbf{System Viz}  & None          & Static architecture diagrams \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Client-side state in \T{localStorage}:}
+\begin{itemize}[nosep, leftmargin=1.5em]
+  \item \T{jwt\_token} — JWT string (cleared on logout)
+  \item \T{user\_profile} — cached profile data
+  \item \T{theme} — dark/light preference
+\end{itemize}
+
+\textbf{Hash router}: \T{window.addEventListener('hashchange', renderTab)} — no
+server-side routing needed; all navigation is client-side.
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Key Design Decisions --- The ``Why?'' Questions}
+%% ══════════════════════════════════════════════════════════════════════════
+
+These are the questions most likely to come up in a viva. Have a crisp one-sentence
+answer and a follow-up explanation ready.
+
+\begin{qabox}
+\textbf{Q: Why is the skill-gate enforced in a trigger and not in the API code?}\\
+\textbf{A}: Application code can be bypassed; triggers cannot. Any INSERT to
+\T{submission} — regardless of source — fires the trigger unconditionally. The
+pedagogical rule (score $\geq$ 70 unlocks the task) is a data integrity rule and belongs
+in the data layer.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Why use views instead of writing the JOINs directly in the API endpoints?}\\
+\textbf{A}: Views encapsulate complex logic in one place. If the schema changes, you
+update the view definition, not every endpoint that uses it. They also act as an
+abstraction layer — the API just does \T{SELECT * FROM view WHERE id = ?}.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Why are composite PKs used on junction tables instead of surrogate keys?}\\
+\textbf{A}: A surrogate \T{enrollment\_id} would allow duplicate (user, lesson) pairs —
+e.g.\ the same user enrolling in the same lesson twice — which is semantically wrong.
+The composite PK \T{(user\_id, lesson\_id)} enforces uniqueness for free, directly
+reflecting the relational model.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: What is the Chaos Sandbox and why is it safe?}\\
+\textbf{A}: It lets anyone type arbitrary SQL SELECT queries. It's safe via two layers:
+(1) server-side check rejects any query not starting with SELECT; (2) the MySQL user
+for the read-only pool has no DML privileges — even if you bypass the Node.js check,
+the database refuses to execute anything other than SELECT.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Why InnoDB and not MyISAM?}\\
+\textbf{A}: InnoDB supports foreign keys and ACID transactions. MyISAM doesn't. Since
+Brio has 13 FK relationships and uses transactions for enrollment, InnoDB is the only
+viable choice.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Explain the normalisation of the lesson table.}\\
+\textbf{A}: Storing \T{subject\_name} directly in \T{lesson} would be a transitive
+dependency (\T{lesson\_id $\to$ subject\_id $\to$ subject\_name}) — that's a 3NF violation.
+Brio stores only \T{subject\_id} FK in \T{lesson} and retrieves the name via JOIN.
+If the subject name changes, one row in \T{subject} is updated; all lessons reflect
+it automatically.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Why store \T{lesson\_tag} in a separate table instead of a VARCHAR column?}\\
+\textbf{A}: Storing \T{tags = "python,oop,closures"} in one column violates 1NF
+(non-atomic values). You can't query ``all lessons tagged python'' without string
+parsing. The \T{lesson\_tag(lesson\_id, tag)} table gives each tag its own row — fully
+atomic, indexable, and queryable.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: What is JWT and why is it stateless?}\\
+\textbf{A}: JWT is a self-contained token with a payload (user ID, role) and a
+cryptographic signature. The server verifies the signature using the shared
+\T{JWT\_SECRET} — it doesn't need to query a sessions table. This scales well
+(no session state to distribute) and the 24-hour expiry limits exposure.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: What does ACID mean? Give an example from Brio.}\\
+\textbf{A}: \textbf{A}tomicity (enrollment + submission both commit or neither does),
+\textbf{C}onsistency (FK constraints stay satisfied), \textbf{I}solation (concurrent
+submissions don't interfere), \textbf{D}urability (committed data survives a crash via
+InnoDB's redo log). The enrollment transaction with savepoint-based rollback demonstrates
+atomicity and consistency.
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: What does LEFT JOIN do that INNER JOIN doesn't?}\\
+\textbf{A}: LEFT JOIN returns all rows from the left table, with NULL for columns from
+the right table when there's no match. INNER JOIN only returns rows that match in both.
+In Brio, \T{learner\_dashboard\_view} uses LEFT JOINs so learners with zero enrollments
+or zero submissions still appear in the view (with NULLs for their stats).
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: Difference between RANK() and DENSE\_RANK()?}\\
+\textbf{A}: If two rows tie for rank 2, \T{RANK()} assigns both rank 2 and skips to
+rank 4 (gap). \T{DENSE\_RANK()} assigns both rank 2 and continues with rank 3 (no
+gap). Brio uses \T{RANK()} in Q4 (learner performance) and \T{DENSE\_RANK()} in Q14
+(top 3 lessons).
+\end{qabox}
+
+\begin{qabox}
+\textbf{Q: What is a correlated subquery? How is it different from a regular subquery?}\\
+\textbf{A}: A regular subquery is evaluated once and its result is reused. A correlated
+subquery references a column from the outer query — it is re-evaluated once \textit{per
+outer row}. Q7 in Brio uses a correlated subquery to find the latest submission timestamp
+per learner per lesson, where the inner query references \T{s.user\_id} and
+\T{s.lesson\_id} from the outer query.
+\end{qabox}
+
+%% ══════════════════════════════════════════════════════════════════════════
+\section{Complete Quick-Reference Summary}
+%% ══════════════════════════════════════════════════════════════════════════
+
+\subsection{SQL Concepts Covered in Brio (Cheat Sheet)}
+
+\begin{multicols}{2}
+\begin{itemize}[nosep, leftmargin=1.5em, itemsep=1pt]
+  \item \textbf{DDL}: CREATE TABLE, constraints, ENUM, INDEX
+  \item \textbf{DML}: INSERT (seed data, bcrypt)
+  \item \textbf{SELECT}: WHERE, ORDER BY, LIMIT
+  \item \textbf{JOINs}: INNER, LEFT, SELF, 4-table
+  \item \textbf{Aggregates}: COUNT, AVG, MAX, SUM, GROUP BY
+  \item \textbf{HAVING}: filter after grouping
+  \item \textbf{Subqueries}: scalar, IN, NOT IN, EXISTS
+  \item \textbf{Correlated subquery}: re-evaluated per outer row
+  \item \textbf{CASE}: conditional computed column
+  \item \textbf{Date functions}: NOW(), INTERVAL, DATE\_SUB()
+  \item \textbf{UNION}: stack two result sets
+  \item \textbf{Window functions}: RANK(), DENSE\_RANK() OVER
+  \item \textbf{CTEs}: WITH clause, non-recursive
+  \item \textbf{Recursive CTEs}: WITH RECURSIVE
+  \item \textbf{Views}: CREATE OR REPLACE VIEW
+  \item \textbf{Triggers}: AFTER INSERT, AFTER UPDATE, NEW/OLD
+  \item \textbf{Transactions}: START/COMMIT/ROLLBACK/SAVEPOINT
+  \item \textbf{NULLIF}: prevent division-by-zero
+  \item \textbf{ROUND()}: decimal rounding
+  \item \textbf{FK policies}: CASCADE, RESTRICT, SET NULL
+\end{itemize}
+\end{multicols}
+
+\subsection{The 15 Queries at a Glance}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}cll@{}}
+\toprule
+\rowcolor{tableheadbg}
+{\color{white}\textbf{Q}} &
+{\color{white}\textbf{Concept}} &
+{\color{white}\textbf{One-line Description}} \\
+\midrule
+\rowcolor{tablerowbg} Q1  & GROUP BY + AVG/COUNT & Submissions per lesson with avg score \\
+Q2  & Multi-JOIN          & Learner profiles with enrolment count \\
+\rowcolor{tablerowbg} Q3  & NOT IN subquery     & Lessons never submitted by anyone \\
+Q4  & RANK() OVER         & Learner leaderboard by avg score \\
+\rowcolor{tablerowbg} Q5  & CTE (WITH)          & High-performers (avg $\geq$ 85) \\
+Q6  & CASE expression     & Score banding (Excellent/Good/Average/Needs Work) \\
+\rowcolor{tablerowbg} Q7  & Correlated subquery & Latest submission per learner per lesson \\
+Q8  & EXISTS              & Learners in at least one project \\
+\rowcolor{tablerowbg} Q9  & Self-JOIN           & Lesson prerequisite chains \\
+Q10 & Date functions      & Submissions in last 7 days \\
+\rowcolor{tablerowbg} Q11 & LEFT JOIN + NULLIF  & Projects with task completion \% \\
+Q12 & HAVING              & Subjects with avg score below 60 \\
+\rowcolor{tablerowbg} Q13 & UNION               & Combined learner + admin roster \\
+Q14 & DENSE\_RANK()       & Top 3 lessons by submission volume \\
+\rowcolor{tablerowbg} Q15 & Recursive CTE       & Project milestone dependency traversal \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Things Most Likely to Be Asked in Viva}
+
+\begin{enumerate}[nosep, leftmargin=2em, itemsep=2pt]
+  \item \textit{Walk me through what happens when a learner submits a lesson.} \\
+        $\to$ POST /api/submit $\to$ Zod validates $\to$ INSERT submission $\to$ Trigger 1 fires $\to$
+        if score $\geq$ 70, tasks unlocked $\to$ Trigger 2 fires $\to$ if all tasks done, project ships.
+
+  \item \textit{What is the skill-gate mechanism?} \\
+        $\to$ kanban\_task has a lesson\_id FK. Trigger 1 checks this FK to decide which
+        tasks to unlock. The database enforces the rule, not the app code.
+
+  \item \textit{Why does your project need two connection pools?} \\
+        $\to$ Security. The Chaos Sandbox gets a read-only MySQL user. Even if the Node.js
+        check is bypassed, the DB user can only SELECT.
+
+  \item \textit{What is 3NF? Give an example from your project.} \\
+        $\to$ No transitive dependencies. subject\_name is in the subject table, not lesson.
+        lesson stores only subject\_id FK. Avoids update anomalies.
+
+  \item \textit{Explain the difference between a view and a table.} \\
+        $\to$ A table stores data. A view stores a query definition — its data is derived
+        at query time. Views are always current; you can't directly INSERT into most views.
+
+  \item \textit{What is ACID? Is it guaranteed in Brio?} \\
+        $\to$ Yes, because InnoDB engine is used and transactions wrap multi-step operations.
+        The enrollment transaction demonstrates all four properties.
+
+  \item \textit{What's the difference between WHERE and HAVING?} \\
+        $\to$ WHERE filters rows before grouping; HAVING filters after. HAVING can use
+        aggregate functions; WHERE cannot.
+
+  \item \textit{Why do you use LEFT JOIN in the dashboard view?} \\
+        $\to$ To include learners who haven't enrolled in any lessons or haven't submitted
+        anything yet. INNER JOIN would hide them.
+
+  \item \textit{Explain the recursive CTE in Q15.} \\
+        $\to$ The anchor selects root milestones (depends\_on IS NULL). The recursive part
+        joins project\_milestone to the CTE itself to find milestones that depend on
+        already-found milestones. Terminates when no new rows match.
+
+  \item \textit{How does bcrypt work?} \\
+        $\to$ bcrypt(password, saltRounds) generates a one-way hash. On login,
+        bcrypt.compare(input, storedHash) re-hashes the input with the embedded salt
+        and compares. Even if the DB is leaked, plaintext can't be recovered.
+\end{enumerate}
+
+\vspace{8pt}
+\begin{keybox}
+\textbf{Golden Rule for the Viva}: for every design decision, always say \textit{why},
+not just \textit{what}. ``We used a trigger \textit{because} it fires regardless of which
+application path inserts the row'' is the answer; ``we used a trigger'' is not.
+\end{keybox}
+
+\end{document}

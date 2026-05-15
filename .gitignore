@@ -1,24 +1,25 @@
+# Dependencies
 node_modules/
-.DS_Store
-*.docx
-*.pptx
-.worktrees/
-.gemini_security/
-.socraticode/
-memory/
-.env*
+
+# Environment variables
 .env
-f Sem 1/
-f Sem 2/
+.env.*
 
-# Report artifacts
-report/*.aux
-report/*.log
-report/*.out
-report/*.pdf
-report/*.toc
-
-# IDE & Tooling
-.claude/settings.local.json
+# Mac system files
 .DS_Store
+**/.DS_Store
 
+# Archives
+*.zip
+*.tar.gz
+
+# Claude Code / Local editor settings
+.claude/
+
+# LaTeX build files
+report/*.aux
+report/*.lof
+report/*.log
+report/*.lot
+report/*.out
+report/*.toc

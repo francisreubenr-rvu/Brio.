@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brio — Complete Study Guide</title>
+<style>
+:root {
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+  --text:#e6edf3;--muted:#8b949e;--blue:#58a6ff;--green:#3fb950;
+  --yellow:#d29922;--red:#f85149;--purple:#bc8cff;--orange:#ffa657;
+  --teal:#39d0d8;--accent:#1f6feb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;display:flex}
+#sidebar{width:260px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+#sidebar-inner{padding:1rem 0}
+.sb-brand{padding:.8rem 1.2rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.sb-brand h2{color:var(--blue);font-size:1.1rem;letter-spacing:1px}
+.sb-brand p{color:var(--muted);font-size:.72rem;margin-top:2px}
+.sb-label{padding:.25rem 1.2rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.sb-link{display:block;padding:.28rem 1.2rem .28rem 1.5rem;font-size:.8rem;color:var(--muted);text-decoration:none;border-left:3px solid transparent;transition:.15s}
+.sb-link:hover,.sb-link.active{color:var(--blue);border-left-color:var(--blue);background:rgba(88,166,255,.06)}
+.sb-link.sub{padding-left:2.4rem;font-size:.75rem}
+#main{flex:1;padding:2.5rem 2rem 6rem;max-width:920px;margin:0 auto}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--blue);width:0;z-index:100;transition:width .1s}
+h1{font-size:2.2rem;color:var(--blue);margin-bottom:.5rem}
+h2{font-size:1.5rem;color:var(--blue);margin:3rem 0 .8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.15rem;color:var(--orange);margin:2rem 0 .5rem}
+h4{font-size:1rem;color:var(--green);margin:1.5rem 0 .4rem}
+p{margin-bottom:.9rem}
+ul,ol{margin:.5rem 0 .9rem 1.6rem}
+li{margin-bottom:.3rem}
+a{color:var(--blue);text-decoration:none}
+pre{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem;overflow-x:auto;margin:1rem 0 1.2rem;font-size:.82rem;line-height:1.6}
+code{font-family:'Cascadia Code','Fira Code',Consolas,monospace}
+:not(pre)>code{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:.1em .4em;font-size:.85em;color:var(--orange)}
+.kw{color:var(--blue);font-weight:bold}
+.fn{color:var(--green)}
+.str{color:var(--yellow)}
+.cm{color:var(--muted);font-style:italic}
+.num{color:var(--purple)}
+.tp{color:var(--teal)}
+.op{color:var(--red)}
+.box{border-radius:8px;padding:1rem 1.2rem;margin:1rem 0 1.2rem;border-left:4px solid}
+.box-blue{background:rgba(88,166,255,.07);border-color:var(--blue)}
+.box-green{background:rgba(63,185,80,.07);border-color:var(--green)}
+.box-yellow{background:rgba(210,153,34,.07);border-color:var(--yellow)}
+.box-red{background:rgba(248,81,73,.07);border-color:var(--red)}
+.box-purple{background:rgba(188,140,255,.07);border-color:var(--purple)}
+.box-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem}
+.box-blue .box-title{color:var(--blue)}
+.box-green .box-title{color:var(--green)}
+.box-yellow .box-title{color:var(--yellow)}
+.box-red .box-title{color:var(--red)}
+.box-purple .box-title{color:var(--purple)}
+.ascii{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem;font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.75rem;line-height:1.5;color:var(--green);overflow-x:auto;margin:1rem 0 1.2rem;white-space:pre}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.2rem;font-size:.85rem}
+th{background:var(--surface2);color:var(--blue);text-align:left;padding:.6rem .8rem;border:1px solid var(--border)}
+td{padding:.5rem .8rem;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+details{border:1px solid var(--border);border-radius:8px;margin:.8rem 0;overflow:hidden}
+summary{padding:.8rem 1.1rem;cursor:pointer;font-weight:600;background:var(--surface2);color:var(--text);list-style:none;display:flex;align-items:center;gap:.5rem}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶";font-size:.65rem;color:var(--muted);transition:.2s;flex-shrink:0}
+details[open]>summary::before{content:"▼"}
+details>*:not(summary){padding:1rem 1.2rem}
+.badge{display:inline-block;padding:.15em .5em;border-radius:4px;font-size:.72rem;font-weight:700;margin-right:.3rem}
+.badge-b{background:rgba(88,166,255,.2);color:var(--blue)}
+.badge-g{background:rgba(63,185,80,.2);color:var(--green)}
+.badge-y{background:rgba(210,153,34,.2);color:var(--yellow)}
+.badge-r{background:rgba(248,81,73,.2);color:var(--red)}
+.hero{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:2rem;margin-bottom:2.5rem}
+.hero-stats{display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap}
+.hero-stat .n{font-size:1.4rem;font-weight:700;color:var(--green)}
+.hero-stat .l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+hr{border:none;border-top:1px solid var(--border);margin:2rem 0}
+@media(max-width:700px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:relative}#main{padding:1.5rem 1rem 4rem}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav id="sidebar">
+<div id="sidebar-inner">
+  <div class="sb-brand"><h2>BRIO</h2><p>Complete Study Guide</p></div>
+  <div class="sb-label">Start Here</div>
+  <a class="sb-link" href="#hero">What is Brio?</a>
+  <a class="sb-link" href="#primer">Concepts Primer</a>
+  <a class="sb-link" href="#architecture">Architecture</a>
+  <div class="sb-label">Database</div>
+  <a class="sb-link" href="#schema">Schema (13 Tables)</a>
+  <a class="sb-link sub" href="#strong-ent">Strong Entities</a>
+  <a class="sb-link sub" href="#weak-ent">Weak Entities</a>
+  <a class="sb-link sub" href="#junction">Junction Tables</a>
+  <a class="sb-link" href="#ddl">DDL — Create Tables</a>
+  <a class="sb-link" href="#dml">DML — Seed Data</a>
+  <div class="sb-label">SQL Features</div>
+  <a class="sb-link" href="#queries">15 Queries</a>
+  <a class="sb-link" href="#views">Views (3)</a>
+  <a class="sb-link" href="#triggers">Triggers (3)</a>
+  <a class="sb-link" href="#transactions">Transactions (3)</a>
+  <div class="sb-label">Application</div>
+  <a class="sb-link" href="#backend">Backend — Node.js</a>
+  <a class="sb-link" href="#frontend">Frontend — Vanilla JS</a>
+  <a class="sb-link" href="#flow">End-to-End Flow</a>
+  <a class="sb-link" href="#security">Security Layers</a>
+  <div class="sb-label">Reference</div>
+  <a class="sb-link" href="#cheatsheet">Cheat Sheet</a>
+</div>
+</nav>
+
+<main id="main">
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+<div class="hero">
+  <div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem">CS1211 — Database Management Systems</div>
+  <h1>BRIO</h1>
+  <p style="color:var(--muted);max-width:600px">A full-stack, project-driven programming learning platform — and a comprehensive showcase of relational database engineering. This guide takes you from zero to fully understanding every line of code.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="n">13</div><div class="l">DB Tables</div></div>
+    <div class="hero-stat"><div class="n">3</div><div class="l">Triggers</div></div>
+    <div class="hero-stat"><div class="n">3</div><div class="l">Views</div></div>
+    <div class="hero-stat"><div class="n">15</div><div class="l">Queries</div></div>
+    <div class="hero-stat"><div class="n">11</div><div class="l">API Endpoints</div></div>
+    <div class="hero-stat"><div class="n">3NF</div><div class="l">Normalised</div></div>
+  </div>
+</div>
+<div class="box box-blue">
+  <div class="box-title">📖 How to use this guide</div>
+  Read from top to bottom. Every concept is explained from scratch before any code appears. No prior knowledge of SQL, HTML, CSS, or JavaScript is assumed. By the end you will be able to explain this entire project to anyone.
+</div>
+</section>
+
+<!-- ═══ PRIMER ═══ -->
+<section id="primer">
+<h2>Concepts Primer — From Zero</h2>
+<p>Before any code, here is plain-English explanation of every technology Brio uses.</p>
+
+<h3>What is a Database?</h3>
+<p>A database is an organised digital filing cabinet. Data is stored in <strong>tables</strong> (like spreadsheet sheets). Every row is one record; every column is one attribute. The rules about what goes in each column are called the <strong>schema</strong>.</p>
+<div class="box box-green">
+  <div class="box-title">Analogy</div>
+  A school register is a database. Each page = a table. Each row = a student. Each column = a field (name, roll number, marks). The rule that no two students share a roll number is enforced by the database — not by a teacher remembering to check.
+</div>
+
+<h3>What is SQL?</h3>
+<p>SQL (Structured Query Language) is the language used to talk to a relational database. Four categories:</p>
+<table>
+  <tr><th>Category</th><th>Full Name</th><th>What it does</th><th>Keywords</th></tr>
+  <tr><td><span class="badge badge-b">DDL</span></td><td>Data Definition Language</td><td>Creates / changes the structure</td><td>CREATE, ALTER, DROP</td></tr>
+  <tr><td><span class="badge badge-g">DML</span></td><td>Data Manipulation Language</td><td>Adds / changes / deletes data</td><td>INSERT, UPDATE, DELETE</td></tr>
+  <tr><td><span class="badge badge-y">DQL</span></td><td>Data Query Language</td><td>Reads data</td><td>SELECT</td></tr>
+  <tr><td><span class="badge badge-r">DCL</span></td><td>Data Control Language</td><td>Controls permissions</td><td>GRANT, REVOKE</td></tr>
+</table>
+
+<h3>What is Node.js?</h3>
+<p>Normally JavaScript only runs inside a browser. Node.js is a runtime that lets you run JavaScript on a server — a computer that handles requests from browsers. Brio's entire backend is a single JavaScript file running on Node.js.</p>
+
+<h3>What is Express?</h3>
+<p>Express is a minimalist framework for Node.js that makes building web servers easy. It is a router: "when someone sends a POST request to <code>/api/auth/login</code>, run this function."</p>
+
+<h3>What is an API and JSON?</h3>
+<p>An <strong>API</strong> (Application Programming Interface) is a defined set of routes a server exposes for clients to call. Brio has 11 routes. Each one returns data as <strong>JSON</strong> — a text format that represents objects with key–value pairs, for example: <code>{ "token": "eyJ...", "role": "learner" }</code>.</p>
+<div class="box box-yellow">
+  <div class="box-title">Analogy — Restaurant</div>
+  The menu = the API (what you can order). You = the browser sending a request. The waiter = HTTP. The kitchen = the backend + database. The plate = the JSON response.
+</div>
+
+<h3>What is JWT?</h3>
+<p>JWT (JSON Web Token) is a digitally signed ID card. On login, the server creates a token containing your user ID and role, signed with a secret key. Every subsequent request includes this token in its header. The server verifies the signature to trust the contents — no database lookup needed to confirm identity on every request.</p>
+
+<h3>What is bcrypt?</h3>
+<p>Passwords must never be stored as plain text. bcrypt is a one-way hashing algorithm: it converts a password into a fixed-length scrambled string. The original password cannot be recovered from the hash. At login, bcrypt re-scrambles what the user typed and compares it to the stored hash.</p>
+
+<h3>What is Zod?</h3>
+<p>Zod is a JavaScript validation library. It defines the expected shape of incoming data and rejects anything that doesn't match — before any database query runs. Example: "email must be a valid email address, password must be at least 1 character."</p>
+</section>
+
+<!-- ═══ ARCHITECTURE ═══ -->
+<section id="architecture">
+<h2>Architecture — The Big Picture</h2>
+<p>Brio uses a classic <strong>three-tier architecture</strong> — every web application works this way.</p>
+
+<div class="ascii">
+┌─────────────────────────────────────────────────────────────────┐
+│                    BROWSER (Tier 1 — Presentation)              │
+│                                                                 │
+│  website/public/index.html  +  styles.css  +  inline JS        │
+│                                                                 │
+│  Three tabs (URL hash router):                                  │
+│    #platform   — learner dashboard (requires login)             │
+│    #showcase   — live SQL runner   (public)                     │
+│    #systemviz  — architecture diagrams (static)                 │
+│                                                                 │
+│  State: JWT token, cached profile → stored in localStorage      │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │  HTTP / REST (port 3000)
+                           │  JSON request bodies / responses
+┌──────────────────────────▼──────────────────────────────────────┐
+│                    NODE.JS SERVER (Tier 2 — Application)        │
+│                                                                 │
+│  website/server.js  (single Express 5 file — intentional)      │
+│                                                                 │
+│  Middleware pipeline per request:                               │
+│    express.json() → authenticate() → route handler → res.json  │
+│                                                                 │
+│  Two MySQL connection pools:                                    │
+│    pool (10 connections)        — all read/write routes         │
+│    readOnlyPool (5 connections) — Chaos Sandbox only            │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │  mysql2/promise driver (port 3306)
+                           │  parameterised ? placeholders
+┌──────────────────────────▼──────────────────────────────────────┐
+│                    MYSQL 8 (Tier 3 — Data)                      │
+│                                                                 │
+│  Database: brio_db                                              │
+│  ├── 13 tables (3NF normalised, InnoDB engine)                  │
+│  ├── 3 views  (pre-computed JOINs queried by API endpoints)     │
+│  ├── 3 triggers (automated business logic, no app code needed)  │
+│  └── ACID transactions (atomicity guaranteed)                   │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+<h3>File Structure</h3>
+<div class="ascii">
+brio/
+├── sql/
+│   ├── 01_DDL.sql                     ← CREATE TABLE (run first)
+│   ├── 02_DML.sql                     ← INSERT seed data (run second)
+│   ├── 03_QUERIES.sql                 ← 15 showcase queries
+│   └── 04_VIEWS_TRIGGERS_TRANSACTIONS.sql
+│
+└── website/
+    ├── server.js                      ← entire backend (~280 lines)
+    ├── package.json
+    └── public/                        ← Express serves as static files
+        ├── index.html                 ← the SPA shell
+        ├── styles.css
+        └── content/subjects.json      ← static subject catalogue</div>
+
+<div class="box box-blue">
+  <div class="box-title">Why one file for the entire backend?</div>
+  In production you would split into route files, service classes, and a data-access layer. For an educational DBMS project, one file means every line is visible without navigating a folder tree — every concept is demonstrable in sequence. This is called a <strong>monolith</strong>.
+</div>
+</section>
+
+<!-- ═══ SCHEMA ═══ -->
+<section id="schema">
+<h2>Database Schema — All 13 Tables</h2>
+<p>The schema is the complete blueprint of the database. Brio's schema is in <strong>Third Normal Form (3NF)</strong> — no redundant data, no update anomalies.</p>
+
+<h3>What is Normalisation?</h3>
+<table>
+  <tr><th>Normal Form</th><th>Rule</th><th>How Brio satisfies it</th></tr>
+  <tr><td><strong>1NF</strong></td><td>Every cell holds exactly one value. No lists inside a column.</td><td>Lesson tags live in a separate <code>lesson_tag</code> table, not as a comma-separated string in <code>lesson</code>.</td></tr>
+  <tr><td><strong>2NF</strong></td><td>Every non-key column depends on the <em>whole</em> primary key (no partial dependencies).</td><td><code>enrollment(user_id, course_id)</code> has composite PK; <code>grade</code> and <code>progress</code> depend on both together.</td></tr>
+  <tr><td><strong>3NF</strong></td><td>No non-key column depends on another non-key column (no transitive dependencies).</td><td><code>tech_stack</code> lives in <code>course</code>, not repeated in <code>lesson</code>. Course data is accessed via FK.</td></tr>
+</table>
+
+<h3 id="strong-ent">Strong Entities (6 tables)</h3>
+<p>A strong entity can exist on its own — it needs no other entity to define it.</p>
+<div class="ascii">
+┌─────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
+│  USERS              │  │  COURSE              │  │  LESSON              │
+├─────────────────────┤  ├──────────────────────┤  ├──────────────────────┤
+│PK user_id  INT AUTO │  │PK course_id INT AUTO │  │PK lesson_id INT AUTO │
+│   f_name   VARCHAR  │  │   title     VARCHAR  │  │FK course_id → COURSE │
+│   l_name   VARCHAR  │  │   tech_stack VARCHAR │  │   title     VARCHAR  │
+│   email    UNIQUE   │  │   difficulty ENUM    │  │   content   TEXT     │
+│   password_hash     │  │   created_at STAMP   │  │   lesson_no INT      │
+│   bio      TEXT     │  └──────────────────────┘  │   UNIQUE(course,no)  │
+│   avatar_url        │                             └──────────────────────┘
+│   github_url        │  ┌──────────────────────┐  ┌──────────────────────┐
+│   role     ENUM     │  │  TEAM                │  │  BLUEPRINT           │
+│   joined_at STAMP   │  ├──────────────────────┤  ├──────────────────────┤
+│   sub_tier  ENUM    │  │PK team_id  INT AUTO  │  │PK blueprint_id AUTO  │
+└─────────────────────┘  │   team_name UNIQUE   │  │   description  TEXT  │
+                         │   max_members 2–4    │  │   difficulty_est     │
+                         └──────────────────────┘  │   generated_at STAMP │
+                                                    └──────────────────────┘</div>
+
+<h3 id="weak-ent">Weak Entities (3 tables)</h3>
+<p>A weak entity depends on a strong entity to exist. Its primary key includes a foreign key to its owner.</p>
+<div class="ascii">
+PROJECT  (weak on USERS — a project needs an owner)
+───────────────────────────────────────────────────────────────
+PK  project_id    INT AUTO_INCREMENT
+FK  user_id    → users.user_id       ON DELETE CASCADE
+FK  team_id    → team.team_id        ON DELETE SET NULL  (optional)
+FK  blueprint_id → blueprint          ON DELETE CASCADE  (1:1, UNIQUE)
+    proj_name  VARCHAR(150)
+    status     ENUM('planning','active','shipped')
+    created_at TIMESTAMP
+
+KANBAN_TASK  (weak on PROJECT — tasks need a project)
+───────────────────────────────────────────────────────────────
+PK  (project_id, task_name)          ← composite primary key
+FK  project_id → project             ON DELETE CASCADE
+FK  lesson_id  → lesson              ON DELETE SET NULL  (the skill gate)
+    status     ENUM('locked','in_progress','done')  DEFAULT 'locked'
+    skill_req  VARCHAR
+    priority   ENUM('low','medium','high')
+
+SUBMISSION  (weak on USERS — a submission needs a submitter)
+───────────────────────────────────────────────────────────────
+PK  submission_id INT AUTO_INCREMENT
+FK  user_id    → users               ON DELETE CASCADE
+FK  lesson_id  → lesson              ON DELETE SET NULL
+    sub_date   TIMESTAMP
+    ai_score   INT  CHECK(ai_score BETWEEN 0 AND 100)
+    feedback   TEXT
+    UNIQUE(user_id, sub_date)        ← prevents double-submit same second</div>
+
+<h3 id="junction">Junction + Multivalued Tables (4 tables)</h3>
+<div class="ascii">
+ENROLLMENT (M:N  USERS ↔ COURSE)       TEAM_MEMBER (M:N  USERS ↔ TEAM)
+──────────────────────────────────      ──────────────────────────────────
+PK (user_id, course_id)                 PK (user_id, team_id)
+FK user_id  → users                     FK user_id → users
+FK course_id → course                   FK team_id → team
+   enrolled_at  TIMESTAMP                  joined_at  TIMESTAMP
+   grade     DECIMAL(4,1) 0–100
+   progress  INT 0–100
+
+LESSON_TAG (multivalued attr of LESSON) BLUEPRINT_TECH (multivalued attr)
+──────────────────────────────────      ──────────────────────────────────
+PK (lesson_id, tag)                     PK (blueprint_id, tech)
+FK lesson_id → lesson                   FK blueprint_id → blueprint
+
+TEAM_ROLE (roles within a team — M:N with role attribute)
+──────────────────────────────────
+PK (team_id, user_id)
+FK team_id → team
+FK user_id → users
+   role  ENUM('lead','backend','frontend','devops','qa')</div>
+
+<h3>Full Entity-Relationship Map</h3>
+<div class="ascii">
+USERS ──1:N──► PROJECT ──1:1──► BLUEPRINT ──◄── BLUEPRINT_TECH
+  │               │
+  │               └──1:N──► KANBAN_TASK ──FK lesson_id──► LESSON
+  │                                                           │
+  ├──M:N──► COURSE ──1:N──► LESSON ──◄── LESSON_TAG          │
+  │  (via ENROLLMENT)                                         │
+  │                                                           │
+  ├──1:N──► SUBMISSION ──FK lesson_id────────────────────────►┘
+  │
+  └──M:N──► TEAM ──◄── TEAM_ROLE
+     (via TEAM_MEMBER)
+     └── PROJECT optionally links back to TEAM via team_id FK</div>
+</section>
+
+<!-- ═══ DDL ═══ -->
+<section id="ddl">
+<h2>DDL — Creating the Database</h2>
+<p>File: <code>sql/01_DDL.sql</code>. Must run first. Tables are created in dependency order — you cannot create a table that references another table that doesn't exist yet.</p>
+
+<h3>users table — annotated line by line</h3>
+<pre><code><span class="kw">CREATE TABLE</span> users (
+    user_id      <span class="tp">INT</span> <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,  <span class="cm">-- MySQL assigns next integer; never insert manually</span>
+    f_name       <span class="tp">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,             <span class="cm">-- first name, required</span>
+    l_name       <span class="tp">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+    email        <span class="tp">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL UNIQUE</span>,      <span class="cm">-- DB rejects duplicates, even if app forgets</span>
+    password_hash <span class="tp">VARCHAR</span>(<span class="num">255</span>) <span class="kw">NOT NULL</span>,            <span class="cm">-- bcrypt hash — NEVER store plaintext passwords</span>
+    bio          <span class="tp">TEXT</span>         <span class="kw">DEFAULT NULL</span>,
+    avatar_url   <span class="tp">VARCHAR</span>(<span class="num">255</span>) <span class="kw">DEFAULT NULL</span>,
+    github_url   <span class="tp">VARCHAR</span>(<span class="num">255</span>) <span class="kw">DEFAULT NULL</span>,
+    role         <span class="tp">ENUM</span>(<span class="str">'learner'</span>,<span class="str">'mentor'</span>,<span class="str">'admin'</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'learner'</span>,  <span class="cm">-- only 3 valid values</span>
+    joined_at    <span class="tp">TIMESTAMP</span>    <span class="kw">NOT NULL DEFAULT CURRENT_TIMESTAMP</span>,              <span class="cm">-- auto-set on insert</span>
+    sub_tier     <span class="tp">ENUM</span>(<span class="str">'starter'</span>,<span class="str">'pro'</span>,<span class="str">'team'</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'starter'</span>
+);</code></pre>
+<div class="box box-yellow">
+  <div class="box-title">Key DDL concepts in this one table</div>
+  <ul>
+    <li><strong>AUTO_INCREMENT</strong> — MySQL keeps an internal counter and increments it on every INSERT. You never supply user_id manually.</li>
+    <li><strong>UNIQUE</strong> — a database-level constraint. Even a direct SQL query bypassing the application cannot insert a duplicate email.</li>
+    <li><strong>ENUM</strong> — restricts the column to a fixed set. Inserting <code>'superuser'</code> into <code>role</code> raises an error.</li>
+    <li><strong>DEFAULT</strong> — if the column is omitted during INSERT, MySQL uses this value automatically.</li>
+    <li><strong>NOT NULL</strong> — inserting a row without supplying this column fails immediately.</li>
+  </ul>
+</div>
+
+<h3>kanban_task — composite primary key explained</h3>
+<pre><code><span class="kw">CREATE TABLE</span> kanban_task (
+    project_id  <span class="tp">INT</span>          <span class="kw">NOT NULL</span>,
+    task_name   <span class="tp">VARCHAR</span>(<span class="num">150</span>) <span class="kw">NOT NULL</span>,
+    lesson_id   <span class="tp">INT</span>          <span class="kw">DEFAULT NULL</span>,   <span class="cm">-- NULL = no skill gate required</span>
+    status      <span class="tp">ENUM</span>(<span class="str">'locked'</span>,<span class="str">'in_progress'</span>,<span class="str">'done'</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'locked'</span>,
+    skill_req   <span class="tp">VARCHAR</span>(<span class="num">200</span>) <span class="kw">DEFAULT NULL</span>,
+    priority    <span class="tp">ENUM</span>(<span class="str">'low'</span>,<span class="str">'medium'</span>,<span class="str">'high'</span>) <span class="kw">NOT NULL DEFAULT</span> <span class="str">'medium'</span>,
+    created_at  <span class="tp">TIMESTAMP</span>    <span class="kw">NOT NULL DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="kw">PRIMARY KEY</span> (project_id, task_name),         <span class="cm">-- composite: each project has its own task names</span>
+    <span class="kw">FOREIGN KEY</span> (project_id) <span class="kw">REFERENCES</span> project(project_id) <span class="kw">ON DELETE CASCADE</span>,
+    <span class="kw">FOREIGN KEY</span> (lesson_id)  <span class="kw">REFERENCES</span> lesson(lesson_id)   <span class="kw">ON DELETE SET NULL</span>
+);</code></pre>
+<div class="box box-purple">
+  <div class="box-title">Why a composite primary key?</div>
+  Two different projects can both have a task named "Write tests". The task name alone is not globally unique. But the combination of <em>project_id + task_name</em> is always unique — each project owns its own set of uniquely named tasks. This is the hallmark of a <strong>weak entity</strong>: identity depends on the owner.
+</div>
+
+<h3>Foreign key actions — CASCADE vs SET NULL vs RESTRICT</h3>
+<table>
+  <tr><th>Action</th><th>What happens when the parent row is deleted</th><th>Used in Brio where</th></tr>
+  <tr><td><code>ON DELETE CASCADE</code></td><td>Child row is automatically deleted too</td><td>Deleting a project deletes all its kanban_tasks</td></tr>
+  <tr><td><code>ON DELETE SET NULL</code></td><td>The FK column in the child is set to NULL</td><td>Deleting a lesson sets kanban_task.lesson_id to NULL — the task survives, just loses its gate</td></tr>
+  <tr><td><code>ON DELETE RESTRICT</code></td><td>The parent delete is blocked if any child exists</td><td>Prevents accidental cascading data loss</td></tr>
+</table>
+
+<h3>submission — CHECK constraint</h3>
+<pre><code><span class="kw">CREATE TABLE</span> submission (
+    submission_id <span class="tp">INT</span> <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+    user_id     <span class="tp">INT</span>       <span class="kw">NOT NULL</span>,
+    sub_date    <span class="tp">TIMESTAMP</span> <span class="kw">NOT NULL DEFAULT CURRENT_TIMESTAMP</span>,
+    lesson_id   <span class="tp">INT</span>       <span class="kw">DEFAULT NULL</span>,
+    ai_score    <span class="tp">INT</span>       <span class="kw">CHECK</span> (ai_score <span class="kw">BETWEEN</span> <span class="num">0</span> <span class="kw">AND</span> <span class="num">100</span>),  <span class="cm">-- DB rejects 101, -5, etc.</span>
+    feedback    <span class="tp">TEXT</span>      <span class="kw">DEFAULT NULL</span>,
+    code_url    <span class="tp">VARCHAR</span>(<span class="num">255</span>) <span class="kw">DEFAULT NULL</span>,
+    <span class="kw">UNIQUE</span> (user_id, sub_date),                <span class="cm">-- no two submissions from same user in the same second</span>
+    <span class="kw">FOREIGN KEY</span> (user_id)   <span class="kw">REFERENCES</span> users(user_id)    <span class="kw">ON DELETE CASCADE</span>,
+    <span class="kw">FOREIGN KEY</span> (lesson_id) <span class="kw">REFERENCES</span> lesson(lesson_id) <span class="kw">ON DELETE SET NULL</span>
+);</code></pre>
+</section>
+
+<!-- ═══ DML ═══ -->
+<section id="dml">
+<h2>DML — Seeding Data</h2>
+<p>File: <code>sql/02_DML.sql</code>. Runs after DDL. Inserts sample data in dependency order: strong entities first, junction tables last.</p>
+
+<h3>Inserting users with pre-hashed passwords</h3>
+<pre><code><span class="kw">INSERT INTO</span> users (f_name, l_name, email, password_hash, role, sub_tier) <span class="kw">VALUES</span>
+(<span class="str">'James'</span>, <span class="str">'Wilson'</span>, <span class="str">'james.wilson@devpath.io'</span>,
+ <span class="str">'$2b$10$abc...'</span>,   <span class="cm">-- bcrypt hash of 'password123'</span>
+ <span class="str">'learner'</span>, <span class="str">'pro'</span>),
+(<span class="str">'Admin'</span>, <span class="str">'Brio'</span>, <span class="str">'admin@brio.dev'</span>,
+ <span class="str">'$2b$10$xyz...'</span>,   <span class="cm">-- bcrypt hash of 'admin2026'</span>
+ <span class="str">'admin'</span>, <span class="str">'team'</span>);</code></pre>
+<div class="box box-red">
+  <div class="box-title">Why passwords are hashed in the seed file</div>
+  If someone reads the SQL file, they must not see plaintext passwords. The hashes are generated offline using bcrypt (10 salt rounds) and pasted into the DML. In the running application, the registration endpoint hashes before inserting — the DB never sees plaintext.
+</div>
+
+<h3>Inserting a junction row (M:N relationship)</h3>
+<pre><code><span class="cm">-- Enroll user 1 (James) into course 1 (Full-Stack Web Dev)</span>
+<span class="kw">INSERT INTO</span> enrollment (user_id, course_id, progress) <span class="kw">VALUES</span>
+(<span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>);
+<span class="cm">-- (user_id=1, course_id=1) is the composite PK — uniquely identifies this enrollment</span>
+<span class="cm">-- progress starts at 0% and is updated as lessons are completed</span></code></pre>
+
+<h3>Upsert — INSERT … ON DUPLICATE KEY UPDATE</h3>
+<p>The submit endpoint uses an upsert so re-submitting the same lesson at the same second does not hard-error:</p>
+<pre><code><span class="kw">INSERT INTO</span> submission (user_id, sub_date, lesson_id, ai_score, feedback)
+<span class="kw">VALUES</span> (?, <span class="fn">NOW</span>(), ?, ?, ?)
+<span class="kw">ON DUPLICATE KEY UPDATE</span>
+    ai_score <span class="op">=</span> <span class="fn">VALUES</span>(ai_score),
+    feedback <span class="op">=</span> <span class="fn">VALUES</span>(feedback);</code></pre>
+<p>If the <code>UNIQUE(user_id, sub_date)</code> constraint fires, MySQL updates the existing row instead of erroring. This pattern is called an <strong>upsert</strong> (update if exists, insert if not).</p>
+</section>
+
+<!-- ═══ QUERIES ═══ -->
+<section id="queries">
+<h2>The 15 Showcase Queries</h2>
+<p>File: <code>sql/03_QUERIES.sql</code>. These run live in the Showcase tab from the real database. Each demonstrates a specific SQL feature.</p>
+
+<details open>
+<summary>Q1 — GROUP BY + COUNT (lessons per course)</summary>
+<pre><code><span class="kw">SELECT</span> c.title <span class="kw">AS</span> course_title, c.difficulty,
+       <span class="fn">COUNT</span>(l.lesson_id) <span class="kw">AS</span> lesson_count
+<span class="kw">FROM</span> course c
+<span class="kw">LEFT JOIN</span> lesson l <span class="kw">ON</span> c.course_id <span class="op">=</span> l.course_id
+<span class="kw">GROUP BY</span> c.course_id, c.title, c.difficulty
+<span class="kw">ORDER BY</span> lesson_count <span class="kw">DESC</span>;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>LEFT JOIN keeps courses with zero lessons. GROUP BY collapses all rows for the same course into one. COUNT counts lessons in that group. ORDER BY DESC puts the most lesson-rich courses first.</div>
+</details>
+
+<details>
+<summary>Q2 — Multi-table INNER JOIN (active projects + blueprints)</summary>
+<pre><code><span class="kw">SELECT</span> p.proj_name, p.status, b.description <span class="kw">AS</span> blueprint_desc, b.difficulty_est
+<span class="kw">FROM</span> project p
+<span class="kw">JOIN</span> blueprint b <span class="kw">ON</span> p.blueprint_id <span class="op">=</span> b.blueprint_id
+<span class="kw">WHERE</span> p.status <span class="op">=</span> <span class="str">'active'</span>;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>INNER JOIN (just JOIN) returns only rows where a match exists on both sides. This shows active projects alongside their AI-generated blueprint descriptions — the 1:1 relationship between project and blueprint in one query.</div>
+</details>
+
+<details>
+<summary>Q4 — CASE WHEN (pivot: task status counts per project)</summary>
+<pre><code><span class="kw">SELECT</span> p.proj_name,
+       <span class="fn">COUNT</span>(kt.task_name) <span class="kw">AS</span> total_tasks,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'done'</span>        <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> done_tasks,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'in_progress'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> in_progress,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'locked'</span>      <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> locked_tasks
+<span class="kw">FROM</span> project p
+<span class="kw">LEFT JOIN</span> kanban_task kt <span class="kw">ON</span> p.project_id <span class="op">=</span> kt.project_id
+<span class="kw">GROUP BY</span> p.project_id, p.proj_name;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>CASE WHEN is SQL's if/else — here it turns each status value into 1 or 0. SUM() then counts them. This "pivot" pattern converts row values into separate column counts within a single grouped query — a very common reporting technique.</div>
+</details>
+
+<details>
+<summary>Q5 — AVG + ROUND + MAX (performance leaderboard)</summary>
+<pre><code><span class="kw">SELECT</span> <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> full_name,
+       <span class="fn">COUNT</span>(s.user_id)                 <span class="kw">AS</span> total_submissions,
+       <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.ai_score), <span class="num">1</span>)         <span class="kw">AS</span> avg_ai_score,
+       <span class="fn">MAX</span>(s.ai_score)                  <span class="kw">AS</span> best_score
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> submission s <span class="kw">ON</span> u.user_id <span class="op">=</span> s.user_id
+<span class="kw">GROUP BY</span> u.user_id, u.f_name, u.l_name
+<span class="kw">ORDER BY</span> avg_ai_score <span class="kw">DESC</span>;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>CONCAT combines first and last name into a single string. AVG computes the mean score per user. ROUND limits to one decimal place. ORDER BY DESC puts the best performers first — this is a leaderboard.</div>
+</details>
+
+<details>
+<summary>Q6 — 3-table JOIN (full enrollment report)</summary>
+<pre><code><span class="kw">SELECT</span> <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> student_name,
+       u.sub_tier, c.title <span class="kw">AS</span> course, c.difficulty,
+       e.progress, e.grade
+<span class="kw">FROM</span> enrollment e
+<span class="kw">JOIN</span> users  u <span class="kw">ON</span> e.user_id  <span class="op">=</span> u.user_id
+<span class="kw">JOIN</span> course c <span class="kw">ON</span> e.course_id <span class="op">=</span> c.course_id
+<span class="kw">ORDER BY</span> e.progress <span class="kw">DESC</span>, student_name;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>The junction table <code>enrollment</code> sits in FROM. Both sides of the M:N relationship (users and course) are JOINed onto it. This resolves many-to-many into readable flat rows — the standard pattern for querying M:N relationships.</div>
+</details>
+
+<details>
+<summary>Q7 — 4-table JOIN with LEFT JOIN and multi-condition ON</summary>
+<pre><code><span class="kw">SELECT</span> t.team_name,
+       <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> member_name,
+       tr.role <span class="kw">AS</span> team_role,
+       p.proj_name <span class="kw">AS</span> working_on
+<span class="kw">FROM</span> team t
+<span class="kw">JOIN</span>      team_member tm <span class="kw">ON</span> t.team_id  <span class="op">=</span> tm.team_id
+<span class="kw">JOIN</span>      users u        <span class="kw">ON</span> tm.user_id <span class="op">=</span> u.user_id
+<span class="kw">LEFT JOIN</span> team_role tr   <span class="kw">ON</span> (t.team_id <span class="op">=</span> tr.team_id <span class="kw">AND</span> u.user_id <span class="op">=</span> tr.user_id)
+<span class="kw">LEFT JOIN</span> project p      <span class="kw">ON</span> (p.team_id <span class="op">=</span> t.team_id <span class="kw">AND</span> p.status <span class="op">=</span> <span class="str">'active'</span>)
+<span class="kw">ORDER BY</span> t.team_name, tr.role;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>LEFT JOINs on team_role and project ensure members without a role or no active project still appear (with NULLs in those columns). The multi-condition ON for project adds an extra filter — only active projects inline, without a WHERE that would exclude non-project members.</div>
+</details>
+
+<details>
+<summary>Q10 — LEFT JOIN + IS NULL (users with no submissions)</summary>
+<pre><code><span class="kw">SELECT</span> <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> full_name,
+       u.email, u.role, u.sub_tier
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> submission s <span class="kw">ON</span> u.user_id <span class="op">=</span> s.user_id
+<span class="kw">WHERE</span> s.user_id <span class="kw">IS NULL</span>
+<span class="kw">ORDER BY</span> u.f_name;</code></pre>
+<div class="box box-blue"><div class="box-title">The NULL trick</div>LEFT JOIN keeps all users even with no matching submission. When no match exists, every column from the submission side is NULL. Filtering WHERE s.user_id IS NULL isolates users who have never submitted — the standard "anti-join" pattern.</div>
+</details>
+
+<details>
+<summary>Q11 — GROUP_CONCAT (tag cloud per lesson)</summary>
+<pre><code><span class="kw">SELECT</span> c.title <span class="kw">AS</span> course_title, l.title <span class="kw">AS</span> lesson_title,
+       <span class="fn">GROUP_CONCAT</span>(lt.tag <span class="kw">ORDER BY</span> lt.tag <span class="kw">SEPARATOR</span> <span class="str">', '</span>) <span class="kw">AS</span> tags
+<span class="kw">FROM</span> course c
+<span class="kw">JOIN</span> lesson l      <span class="kw">ON</span> c.course_id <span class="op">=</span> l.course_id
+<span class="kw">JOIN</span> lesson_tag lt <span class="kw">ON</span> l.lesson_id <span class="op">=</span> lt.lesson_id
+<span class="kw">GROUP BY</span> c.course_id, c.title, l.lesson_id, l.title
+<span class="kw">ORDER BY</span> c.title, l.lesson_no;</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>GROUP_CONCAT is MySQL-specific — it collapses multiple rows into one comma-separated string within a group. This "re-collects" the multivalued tags that were normalised into their own table, presenting them as a readable list without denormalising the schema.</div>
+</details>
+
+<details>
+<summary>Q12 — Subquery with IN (users enrolled in auth-tagged courses)</summary>
+<pre><code><span class="kw">SELECT DISTINCT</span> <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> full_name, u.email
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> enrollment e <span class="kw">ON</span> u.user_id <span class="op">=</span> e.user_id
+<span class="kw">WHERE</span> e.course_id <span class="kw">IN</span> (
+    <span class="kw">SELECT DISTINCT</span> l.course_id
+    <span class="kw">FROM</span> lesson l
+    <span class="kw">JOIN</span> lesson_tag lt <span class="kw">ON</span> l.lesson_id <span class="op">=</span> lt.lesson_id
+    <span class="kw">WHERE</span> lt.tag <span class="op">=</span> <span class="str">'auth'</span>
+);</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>The inner subquery runs first and produces a list of course_ids that contain at least one lesson tagged 'auth'. The outer query then uses IN to filter enrollments to only those courses. Subqueries compute a temporary answer that the outer query uses — think of them as nested questions.</div>
+</details>
+
+<details>
+<summary>Q14 — Nested subquery with HAVING MAX (top scorer)</summary>
+<pre><code><span class="kw">SELECT</span> <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> full_name,
+       <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.ai_score), <span class="num">1</span>) <span class="kw">AS</span> avg_score
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> submission s <span class="kw">ON</span> u.user_id <span class="op">=</span> s.user_id
+<span class="kw">GROUP BY</span> u.user_id, u.f_name, u.l_name
+<span class="kw">HAVING</span> <span class="fn">AVG</span>(s.ai_score) <span class="op">=</span> (
+    <span class="kw">SELECT MAX</span>(avg_sub)
+    <span class="kw">FROM</span> (<span class="kw">SELECT AVG</span>(ai_score) <span class="kw">AS</span> avg_sub
+          <span class="kw">FROM</span> submission <span class="kw">GROUP BY</span> user_id) <span class="kw">AS</span> scores
+);</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation — three levels</div>Innermost: compute every user's average score. Middle: find the maximum of those averages. HAVING: keep only users whose average equals that maximum. WHERE filters raw rows; HAVING filters groups after aggregation — that distinction is critical.</div>
+</details>
+
+<details>
+<summary>Q15 — NOT IN subquery (locked tasks with unmet prerequisites)</summary>
+<pre><code><span class="kw">SELECT</span> p.proj_name, kt.task_name, l.title <span class="kw">AS</span> required_lesson
+<span class="kw">FROM</span> kanban_task kt
+<span class="kw">JOIN</span> project p <span class="kw">ON</span> kt.project_id <span class="op">=</span> p.project_id
+<span class="kw">JOIN</span> lesson l  <span class="kw">ON</span> kt.lesson_id  <span class="op">=</span> l.lesson_id
+<span class="kw">WHERE</span> kt.status <span class="op">=</span> <span class="str">'locked'</span>
+  <span class="kw">AND</span> l.lesson_id <span class="kw">NOT IN</span> (
+      <span class="kw">SELECT DISTINCT</span> lesson_id
+      <span class="kw">FROM</span> submission
+      <span class="kw">WHERE</span> user_id  <span class="op">=</span> p.user_id
+        <span class="kw">AND</span> ai_score <span class="op">&gt;=</span> <span class="num">70</span>
+  );</code></pre>
+<div class="box box-blue"><div class="box-title">Explanation</div>The subquery produces a whitelist of lessons the project owner has passed (score ≥ 70). NOT IN then finds locked tasks whose gating lesson is not on that whitelist — meaning the prerequisite is not yet met.</div>
+</details>
+</section>
+
+<!-- ═══ VIEWS ═══ -->
+<section id="views">
+<h2>Views — The Database's Saved Reports</h2>
+<p>A <strong>view</strong> is a named, stored SELECT query that behaves exactly like a table. No data is stored in the view itself — it recomputes every time it is queried. Views encapsulate complex logic so that API endpoints can run a simple <code>SELECT * FROM view_name WHERE …</code> instead of a multi-table JOIN every time.</p>
+
+<h3>View 1 — learner_dashboard_view</h3>
+<p>Queried by: <code>GET /api/profile/me</code></p>
+<pre><code><span class="kw">CREATE OR REPLACE VIEW</span> learner_dashboard_view <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    u.user_id,
+    <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name)   <span class="kw">AS</span> full_name,
+    u.sub_tier,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> e.course_id)        <span class="kw">AS</span> courses_enrolled,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(e.progress), <span class="num">1</span>)          <span class="kw">AS</span> avg_course_progress,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> s.sub_date)         <span class="kw">AS</span> total_submissions,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.ai_score), <span class="num">1</span>)          <span class="kw">AS</span> avg_ai_score,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> p.project_id)       <span class="kw">AS</span> projects_owned
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> enrollment e <span class="kw">ON</span> u.user_id <span class="op">=</span> e.user_id
+<span class="kw">LEFT JOIN</span> submission s <span class="kw">ON</span> u.user_id <span class="op">=</span> s.user_id
+<span class="kw">LEFT JOIN</span> project p    <span class="kw">ON</span> u.user_id <span class="op">=</span> p.user_id
+<span class="kw">WHERE</span> u.role <span class="op">=</span> <span class="str">'learner'</span>
+<span class="kw">GROUP BY</span> u.user_id, u.f_name, u.l_name, u.sub_tier;</code></pre>
+<div class="box box-blue"><div class="box-title">Why COUNT DISTINCT?</div>Without DISTINCT, the LEFT JOIN cross-product would inflate counts. If a user has 3 enrollments and 5 submissions, the naive join produces 15 rows — COUNT would return 15, not 3. COUNT DISTINCT counts unique values only, giving the correct figures.</div>
+
+<h3>View 2 — project_kanban_view</h3>
+<p>Queried by: <code>GET /api/projects</code></p>
+<pre><code><span class="kw">CREATE OR REPLACE VIEW</span> project_kanban_view <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    p.project_id, p.proj_name, p.status <span class="kw">AS</span> project_status,
+    <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name) <span class="kw">AS</span> owner,
+    t.team_name,
+    <span class="fn">COUNT</span>(kt.task_name)                                          <span class="kw">AS</span> total_tasks,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'done'</span>        <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> done_count,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'in_progress'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> in_progress,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'locked'</span>      <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> locked_count,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> kt.status <span class="op">=</span> <span class="str">'done'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="op">*</span> <span class="num">100.0</span>
+        <span class="op">/</span> <span class="fn">COUNT</span>(kt.task_name), <span class="num">2</span>
+    ) <span class="kw">AS</span> completion_pct
+<span class="kw">FROM</span> project p
+<span class="kw">JOIN</span>      users u          <span class="kw">ON</span> p.user_id   <span class="op">=</span> u.user_id
+<span class="kw">LEFT JOIN</span> team t           <span class="kw">ON</span> p.team_id   <span class="op">=</span> t.team_id
+<span class="kw">LEFT JOIN</span> kanban_task kt   <span class="kw">ON</span> p.project_id <span class="op">=</span> kt.project_id
+<span class="kw">GROUP BY</span> p.project_id, p.proj_name, p.status, u.f_name, u.l_name, t.team_name;</code></pre>
+
+<h3>View 3 — skill_gate_compliance_view</h3>
+<p>Queried by: Showcase tab → View 3 button</p>
+<pre><code><span class="kw">CREATE OR REPLACE VIEW</span> skill_gate_compliance_view <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    p.proj_name, kt.task_name, kt.status,
+    l.title                          <span class="kw">AS</span> gating_lesson,
+    <span class="fn">CONCAT</span>(u.f_name, <span class="str">' '</span>, u.l_name)  <span class="kw">AS</span> owner,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> s.ai_score <span class="kw">IS NOT NULL AND</span> s.ai_score <span class="op">&gt;=</span> <span class="num">70</span>
+             <span class="kw">THEN</span> <span class="str">'Eligible to unlock'</span>
+        <span class="kw">WHEN</span> s.ai_score <span class="kw">IS NOT NULL AND</span> s.ai_score <span class="op">&lt;</span> <span class="num">70</span>
+             <span class="kw">THEN</span> <span class="str">'Score too low (need &gt;= 70)'</span>
+        <span class="kw">ELSE</span> <span class="str">'Lesson not submitted yet'</span>
+    <span class="kw">END</span>                              <span class="kw">AS</span> gate_status,
+    s.ai_score                       <span class="kw">AS</span> lesson_score
+<span class="kw">FROM</span> kanban_task kt
+<span class="kw">JOIN</span>      project p   <span class="kw">ON</span> kt.project_id <span class="op">=</span> p.project_id
+<span class="kw">JOIN</span>      users u     <span class="kw">ON</span> p.user_id     <span class="op">=</span> u.user_id
+<span class="kw">LEFT JOIN</span> lesson l    <span class="kw">ON</span> kt.lesson_id  <span class="op">=</span> l.lesson_id
+<span class="kw">LEFT JOIN</span> submission s
+          <span class="kw">ON</span> (s.user_id <span class="op">=</span> u.user_id <span class="kw">AND</span> s.lesson_id <span class="op">=</span> kt.lesson_id)
+<span class="kw">WHERE</span> kt.status <span class="op">=</span> <span class="str">'locked'</span>;</code></pre>
+<div class="box box-purple"><div class="box-title">Multi-condition LEFT JOIN on submission</div>The submission LEFT JOIN uses two conditions: matching the project owner's user_id AND the specific gating lesson_id. Without both, we'd show any user's score for that lesson — not the project owner's.</div>
+</section>
+
+<!-- ═══ TRIGGERS ═══ -->
+<section id="triggers">
+<h2>Triggers — Automation Inside the Database</h2>
+<p>A <strong>trigger</strong> is a stored procedure that MySQL runs automatically when a specific event (INSERT, UPDATE, or DELETE) occurs on a table. No application code calls it — the database fires it silently.</p>
+<div class="box box-yellow">
+  <div class="box-title">Why triggers instead of application code?</div>
+  Triggers fire regardless of what causes the event — an API call, a direct MySQL Workbench query, a migration script, anything. Application code can be bypassed; database triggers cannot. Business rules enforced in triggers are guaranteed.
+</div>
+
+<h3>Trigger 1 — Auto-unlock kanban tasks on passing submission</h3>
+<div class="ascii">
+                    INSERT INTO submission (ai_score=85, lesson_id=4)
+                                    │
+                    ─────────────────▼─────────────────
+                    trg_unlock_task_after_submission
+                    (AFTER INSERT ON submission)
+                    ─────────────────────────────────
+                    IF NEW.ai_score >= 70 AND lesson_id given:
+                        UPDATE kanban_task
+                        SET status = 'in_progress'
+                        WHERE lesson_id = 4       ← the lesson just passed
+                          AND status = 'locked'
+                          AND project.user_id = the submitter
+                    ─────────────────────────────────
+                                    │
+                        (status changed to 'in_progress')
+                                    │
+                    ─────────────────▼─────────────────
+                    trg_auto_ship_project fires next
+                    (AFTER UPDATE ON kanban_task)
+                    ─────────────────────────────────
+                    IF all tasks in project = 'done':
+                        UPDATE project SET status = 'shipped'</div>
+
+<pre><code><span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE TRIGGER</span> trg_unlock_task_after_submission
+<span class="kw">AFTER INSERT ON</span> submission
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+    <span class="kw">IF</span> NEW.ai_score <span class="op">&gt;=</span> <span class="num">70</span> <span class="kw">AND</span> NEW.lesson_id <span class="kw">IS NOT NULL THEN</span>
+        <span class="kw">UPDATE</span> kanban_task kt
+        <span class="kw">JOIN</span> project p <span class="kw">ON</span> kt.project_id <span class="op">=</span> p.project_id
+        <span class="kw">SET</span> kt.status <span class="op">=</span> <span class="str">'in_progress'</span>
+        <span class="kw">WHERE</span> kt.lesson_id <span class="op">=</span> NEW.lesson_id  <span class="cm">-- matches the lesson just submitted</span>
+          <span class="kw">AND</span> kt.status    <span class="op">=</span> <span class="str">'locked'</span>       <span class="cm">-- only unlock currently locked tasks</span>
+          <span class="kw">AND</span> p.user_id    <span class="op">=</span> NEW.user_id;   <span class="cm">-- only the submitter's own projects</span>
+    <span class="kw">END IF</span>;
+<span class="kw">END</span>$$
+<span class="kw">DELIMITER</span> ;</code></pre>
+<div class="box box-blue"><div class="box-title">NEW keyword</div>Inside a trigger, <code>NEW</code> refers to the row being inserted or updated. <code>NEW.ai_score</code> is the score of the just-inserted submission. <code>OLD</code> (for UPDATE/DELETE triggers) is the row before the change.</div>
+
+<h3>Trigger 2 — Enforce team size limit</h3>
+<pre><code><span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE TRIGGER</span> trg_enforce_team_size
+<span class="kw">BEFORE INSERT ON</span> team_member
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+    <span class="kw">DECLARE</span> current_members <span class="tp">INT</span>;
+    <span class="kw">DECLARE</span> team_limit      <span class="tp">INT</span>;
+
+    <span class="kw">SELECT COUNT</span>(<span class="op">*</span>) <span class="kw">INTO</span> current_members
+    <span class="kw">FROM</span> team_member <span class="kw">WHERE</span> team_id <span class="op">=</span> NEW.team_id;
+
+    <span class="kw">SELECT</span> max_members <span class="kw">INTO</span> team_limit
+    <span class="kw">FROM</span> team <span class="kw">WHERE</span> team_id <span class="op">=</span> NEW.team_id;
+
+    <span class="kw">IF</span> current_members <span class="op">&gt;=</span> team_limit <span class="kw">THEN</span>
+        <span class="kw">SIGNAL SQLSTATE</span> <span class="str">'45000'</span>
+        <span class="kw">SET MESSAGE_TEXT</span> <span class="op">=</span> <span class="str">'Team has reached its maximum member capacity.'</span>;
+    <span class="kw">END IF</span>;
+<span class="kw">END</span>$$
+<span class="kw">DELIMITER</span> ;</code></pre>
+<div class="box box-red"><div class="box-title">SIGNAL SQLSTATE</div>SIGNAL raises a custom error from inside a trigger. The code <code>'45000'</code> is the user-defined exception class. MySQL cancels the INSERT and propagates the error up to the application — caught by the global error handler in <code>server.js</code>.</div>
+
+<h3>Trigger 3 — Auto-ship project when all tasks complete</h3>
+<pre><code><span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE TRIGGER</span> trg_auto_ship_project
+<span class="kw">AFTER UPDATE ON</span> kanban_task
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+    <span class="kw">DECLARE</span> total_tasks <span class="tp">INT</span>;
+    <span class="kw">DECLARE</span> done_tasks  <span class="tp">INT</span>;
+
+    <span class="kw">SELECT COUNT</span>(<span class="op">*</span>),
+           <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> status <span class="op">=</span> <span class="str">'done'</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>)
+    <span class="kw">INTO</span> total_tasks, done_tasks
+    <span class="kw">FROM</span> kanban_task <span class="kw">WHERE</span> project_id <span class="op">=</span> NEW.project_id;
+
+    <span class="kw">IF</span> total_tasks <span class="op">&gt;</span> <span class="num">0</span> <span class="kw">AND</span> total_tasks <span class="op">=</span> done_tasks <span class="kw">THEN</span>
+        <span class="kw">UPDATE</span> project <span class="kw">SET</span> status <span class="op">=</span> <span class="str">'shipped'</span>
+        <span class="kw">WHERE</span> project_id <span class="op">=</span> NEW.project_id <span class="kw">AND</span> status <span class="op">!=</span> <span class="str">'shipped'</span>;
+    <span class="kw">END IF</span>;
+<span class="kw">END</span>$$
+<span class="kw">DELIMITER</span> ;</code></pre>
+<div class="box box-green"><div class="box-title">The status != 'shipped' guard</div>Without this guard, marking a task done on an already-shipped project would fire the UPDATE again unnecessarily. The guard prevents a redundant write and avoids triggering any further downstream cascade effects.</div>
+</section>
+
+<!-- ═══ TRANSACTIONS ═══ -->
+<section id="transactions">
+<h2>Transactions — ACID Guarantees</h2>
+<p>A <strong>transaction</strong> is a group of SQL statements treated as one indivisible unit. Either all succeed (<code>COMMIT</code>) or none do (<code>ROLLBACK</code>).</p>
+
+<table>
+  <tr><th>ACID</th><th>Property</th><th>What it means</th></tr>
+  <tr><td><strong>A</strong></td><td>Atomicity</td><td>All-or-nothing. No partial writes survive.</td></tr>
+  <tr><td><strong>C</strong></td><td>Consistency</td><td>The database moves from one valid state to another. Constraints are never violated mid-transaction.</td></tr>
+  <tr><td><strong>I</strong></td><td>Isolation</td><td>Concurrent transactions don't see each other's uncommitted work.</td></tr>
+  <tr><td><strong>D</strong></td><td>Durability</td><td>Once committed, data survives crashes and power failures.</td></tr>
+</table>
+
+<h3>Transaction 1 — Enroll a new user atomically</h3>
+<pre><code><span class="kw">START TRANSACTION</span>;
+
+    <span class="cm">-- Step 1: Create the user</span>
+    <span class="kw">INSERT INTO</span> users (f_name, l_name, email, password_hash, role, sub_tier)
+    <span class="kw">VALUES</span> (<span class="str">'Christopher'</span>, <span class="str">'Clark'</span>, <span class="str">'christopher.clark@devpath.io'</span>,
+            <span class="str">'$2b$10$...'</span>, <span class="str">'learner'</span>, <span class="str">'pro'</span>);
+
+    <span class="cm">-- Step 2: Enroll in Full-Stack Web Dev</span>
+    <span class="cm">-- LAST_INSERT_ID() returns the user_id just generated by Step 1</span>
+    <span class="kw">INSERT INTO</span> enrollment (user_id, course_id, progress)
+    <span class="kw">VALUES</span> (<span class="fn">LAST_INSERT_ID</span>(), <span class="num">1</span>, <span class="num">0</span>);
+
+<span class="kw">COMMIT</span>;
+<span class="cm">-- Either both rows exist or neither does.</span></code></pre>
+
+<h3>Transaction 2 — Create team and assign to project</h3>
+<pre><code><span class="kw">START TRANSACTION</span>;
+    <span class="kw">INSERT INTO</span> team (team_name, max_members) <span class="kw">VALUES</span> (<span class="str">'Team Apex'</span>, <span class="num">4</span>);
+    <span class="kw">INSERT INTO</span> team_member (user_id, team_id) <span class="kw">VALUES</span> (<span class="num">5</span>, <span class="fn">LAST_INSERT_ID</span>());
+    <span class="kw">INSERT INTO</span> team_member (user_id, team_id) <span class="kw">VALUES</span> (<span class="num">3</span>, <span class="fn">LAST_INSERT_ID</span>());
+    <span class="kw">UPDATE</span> project
+    <span class="kw">SET</span>    team_id <span class="op">=</span> (<span class="kw">SELECT</span> team_id <span class="kw">FROM</span> team <span class="kw">WHERE</span> team_name <span class="op">=</span> <span class="str">'Team Apex'</span>)
+    <span class="kw">WHERE</span>  project_id <span class="op">=</span> <span class="num">5</span>;
+<span class="kw">COMMIT</span>;</code></pre>
+
+<h3>Transaction 3 — Rollback on invalid data</h3>
+<pre><code><span class="kw">START TRANSACTION</span>;
+
+    <span class="cm">-- ai_score=110 violates CHECK(ai_score BETWEEN 0 AND 100)</span>
+    <span class="kw">INSERT INTO</span> submission (user_id, sub_date, lesson_id, ai_score, feedback)
+    <span class="kw">VALUES</span> (<span class="num">3</span>, <span class="str">'2025-03-25 12:00:00'</span>, <span class="num">5</span>, <span class="num">110</span>, <span class="str">'Score exceeds maximum.'</span>);
+    <span class="cm">-- MySQL raises a CHECK constraint error here</span>
+
+<span class="kw">ROLLBACK</span>;
+<span class="cm">-- The table is exactly as it was before START TRANSACTION. Zero partial writes.</span></code></pre>
+<div class="box box-red"><div class="box-title">ROLLBACK = time machine</div>ROLLBACK undoes everything since START TRANSACTION. In banking: if debit succeeds but credit fails, ROLLBACK removes the debit. No half-completed operations survive — this is what makes transactional databases trustworthy.</div>
+</section>
+
+<!-- ═══ BACKEND ═══ -->
+<section id="backend">
+<h2>Backend — The Node.js Server</h2>
+
+<h3>Startup and middleware</h3>
+<pre><code><span class="kw">const</span> express <span class="op">=</span> <span class="fn">require</span>(<span class="str">'express'</span>);
+<span class="kw">const</span> mysql   <span class="op">=</span> <span class="fn">require</span>(<span class="str">'mysql2/promise'</span>);
+<span class="kw">const</span> jwt     <span class="op">=</span> <span class="fn">require</span>(<span class="str">'jsonwebtoken'</span>);
+<span class="kw">const</span> bcrypt  <span class="op">=</span> <span class="fn">require</span>(<span class="str">'bcrypt'</span>);
+<span class="kw">const</span> { z }  <span class="op">=</span> <span class="fn">require</span>(<span class="str">'zod'</span>);
+
+<span class="kw">const</span> app <span class="op">=</span> <span class="fn">express</span>();
+app.<span class="fn">use</span>(express.<span class="fn">json</span>());            <span class="cm">// auto-parse JSON request bodies into req.body</span>
+app.<span class="fn">use</span>(express.<span class="fn">static</span>(<span class="str">'public'</span>)); <span class="cm">// serve index.html, styles.css, study.html, etc.</span>
+
+<span class="cm">// Two pools with different MySQL users and sizes</span>
+<span class="kw">const</span> pool         <span class="op">=</span> mysql.<span class="fn">createPool</span>({ connectionLimit: <span class="num">10</span> }); <span class="cm">// read-write</span>
+<span class="kw">const</span> readOnlyPool <span class="op">=</span> mysql.<span class="fn">createPool</span>({ connectionLimit: <span class="num">5</span>  }); <span class="cm">// SELECT-only user</span>
+
+app.<span class="fn">listen</span>(<span class="num">3000</span>);</code></pre>
+<div class="box box-blue"><div class="box-title">Why a pool?</div>Opening and closing a MySQL connection for every HTTP request is slow (TCP handshake + auth each time). A connection pool keeps connections permanently open and hands them out on demand. When a route finishes, the connection is returned to the pool for reuse.</div>
+
+<h3>authenticate middleware — full walkthrough</h3>
+<pre><code><span class="kw">const</span> <span class="fn">authenticate</span> <span class="op">=</span> <span class="kw">async</span> (req, res, next) <span class="op">=&gt;</span> {
+    <span class="cm">// Authorization header looks like: "Bearer eyJhbGci..."</span>
+    <span class="kw">const</span> token <span class="op">=</span> req.headers.authorization<span class="op">?.</span><span class="fn">split</span>(<span class="str">' '</span>)[<span class="num">1</span>];
+    <span class="kw">if</span> (<span class="op">!</span>token) <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Unauthorized'</span> });
+    <span class="kw">try</span> {
+        <span class="cm">// jwt.verify() checks the signature AND expiry simultaneously</span>
+        <span class="kw">const</span> decoded <span class="op">=</span> jwt.<span class="fn">verify</span>(token, JWT_SECRET);
+
+        <span class="cm">// Extra safety: confirm user still exists (catches admin deletions)</span>
+        <span class="kw">const</span> [rows] <span class="op">=</span> <span class="kw">await</span> pool.<span class="fn">query</span>(
+            <span class="str">'SELECT user_id FROM users WHERE user_id = ?'</span>, [decoded.id]
+        );
+        <span class="kw">if</span> (rows.length <span class="op">===</span> <span class="num">0</span>)
+            <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Account no longer exists.'</span> });
+
+        req.user <span class="op">=</span> decoded;  <span class="cm">// attach { id, role } so route handlers can use it</span>
+        <span class="fn">next</span>();              <span class="cm">// pass control to the actual route handler</span>
+    } <span class="kw">catch</span> {
+        res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Invalid or expired token'</span> });
+    }
+};</code></pre>
+
+<h3>Login route — complete flow</h3>
+<pre><code><span class="kw">const</span> loginSchema <span class="op">=</span> z.<span class="fn">object</span>({
+    email:    z.<span class="fn">string</span>().<span class="fn">email</span>(),   <span class="cm">// Zod rejects "notanemail" before DB is touched</span>
+    password: z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">1</span>)
+});
+
+app.<span class="fn">post</span>(<span class="str">'/api/auth/login'</span>, <span class="kw">async</span> (req, res, next) <span class="op">=&gt;</span> {
+    <span class="kw">try</span> {
+        <span class="kw">const</span> { email, password } <span class="op">=</span> loginSchema.<span class="fn">parse</span>(req.body); <span class="cm">// throws if invalid</span>
+
+        <span class="kw">const</span> [users] <span class="op">=</span> <span class="kw">await</span> pool.<span class="fn">query</span>(
+            <span class="str">'SELECT * FROM users WHERE email = ?'</span>, [email]
+        );                              <span class="cm">// ? = parameterised — prevents SQL injection</span>
+        <span class="kw">if</span> (users.length <span class="op">===</span> <span class="num">0</span>)
+            <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Invalid credentials'</span> });
+
+        <span class="kw">const</span> match <span class="op">=</span> <span class="kw">await</span> bcrypt.<span class="fn">compare</span>(password, users[<span class="num">0</span>].password_hash);
+        <span class="kw">if</span> (<span class="op">!</span>match)
+            <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ error: <span class="str">'Invalid credentials'</span> });
+
+        <span class="kw">const</span> token <span class="op">=</span> jwt.<span class="fn">sign</span>(
+            { id: users[<span class="num">0</span>].user_id, role: users[<span class="num">0</span>].role },
+            JWT_SECRET, { expiresIn: <span class="str">'24h'</span> }
+        );
+        res.<span class="fn">json</span>({ token, user: { <span class="cm">/* profile fields */</span> } });
+    } <span class="kw">catch</span> (err) { <span class="fn">next</span>(err); }  <span class="cm">// pass to global error handler</span>
+});</code></pre>
+
+<h3>Global error handler</h3>
+<pre><code>app.<span class="fn">use</span>((err, req, res, next) <span class="op">=&gt;</span> {
+    <span class="kw">if</span> (err <span class="kw">instanceof</span> z.ZodError)
+        <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">400</span>).<span class="fn">json</span>({ error: <span class="str">'Validation failed'</span>, details: err.errors });
+    res.<span class="fn">status</span>(<span class="num">500</span>).<span class="fn">json</span>({ error: err.message <span class="op">||</span> <span class="str">'Internal Server Error'</span> });
+});</code></pre>
+<p>Every route ends its catch block with <code>next(err)</code>. All errors — Zod validation failures, MySQL errors, token errors — flow here. This single handler normalises them into consistent <code>{ "error": "..." }</code> JSON. The frontend can always handle errors the same way regardless of origin.</p>
+</section>
+
+<!-- ═══ FRONTEND ═══ -->
+<section id="frontend">
+<h2>Frontend — Vanilla JavaScript SPA</h2>
+<p>The frontend is plain HTML + CSS + JavaScript in <code>website/public/</code>. Express's static middleware serves them. No React, no bundler, no build step needed.</p>
+
+<h3>What is a Single Page Application?</h3>
+<p>A SPA loads one HTML page once, then dynamically swaps content without full page reloads. Navigation changes the URL hash (the <code>#platform</code> part) without triggering a new HTTP request. JavaScript listens for hash changes and shows/hides content panels accordingly.</p>
+
+<div class="ascii">
+Browser loads index.html ONCE
+         │
+         ├── User clicks [Showcase] tab
+         │     → window.location.hash = '#showcase'
+         │     → 'hashchange' event fires
+         │     → JS: hide #platform-panel
+         │     → JS: show #showcase-panel
+         │     → fetch('/api/showcase/queries') → render list
+         │     (no page reload — instant)
+         │
+         └── User clicks [Platform] tab (logged in)
+               → hash = '#platform'
+               → fetch('/api/profile/me', { headers: { Authorization: 'Bearer ...' }})
+               → render dashboard from returned JSON</div>
+
+<h3>localStorage — persisting state between page loads</h3>
+<pre><code><span class="cm">// After successful login:</span>
+localStorage.<span class="fn">setItem</span>(<span class="str">'brio_token'</span>, token);
+
+<span class="cm">// Before any authenticated API call:</span>
+<span class="kw">const</span> token <span class="op">=</span> localStorage.<span class="fn">getItem</span>(<span class="str">'brio_token'</span>);
+<span class="fn">fetch</span>(<span class="str">'/api/profile/me'</span>, {
+    headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+});
+
+<span class="cm">// On logout:</span>
+localStorage.<span class="fn">removeItem</span>(<span class="str">'brio_token'</span>);</code></pre>
+
+<h3>The three tabs</h3>
+<table>
+  <tr><th>Tab</th><th>Hash</th><th>Auth?</th><th>Data comes from</th></tr>
+  <tr><td>Platform</td><td>#platform</td><td>JWT required</td><td>/api/profile/me, /api/projects, /api/lessons</td></tr>
+  <tr><td>Showcase</td><td>#showcase</td><td>Public — no login</td><td>/api/showcase/stats, /api/showcase/query</td></tr>
+  <tr><td>System Viz</td><td>#systemviz</td><td>Public</td><td>Static diagram images from /img/</td></tr>
+</table>
+</section>
+
+<!-- ═══ FLOW ═══ -->
+<section id="flow">
+<h2>End-to-End Request Flow</h2>
+<p>Tracing exactly what happens when a learner submits a lesson and scores 85/100 — from button click to database trigger and back.</p>
+
+<div class="ascii">
+BROWSER                      SERVER (server.js)           DATABASE (MySQL)
+─────────────────────────    ─────────────────────────    ─────────────────────
+[Submit button clicked]
+    │
+    ▼
+fetch('/api/submit', {
+  method: 'POST',
+  headers: { Authorization: 'Bearer eyJ...' },
+  body: JSON.stringify({ lessonId: 4, score: 85 })
+})
+    │
+    │  HTTP POST ──────────────►
+    │                          │
+    │                     app.post('/api/submit',
+    │                         authenticate, handler)
+    │                          │
+    │                     authenticate():
+    │                       jwt.verify(token) ✓
+    │                       SELECT user_id ... ✓
+    │                       req.user = { id:1 }
+    │                          │
+    │                     pool.query(INSERT INTO
+    │                     submission ...)
+    │                          │──────────────────────►
+    │                          │                       INSERT INTO submission
+    │                          │                       (user_id=1, lesson_id=4,
+    │                          │                        ai_score=85)
+    │                          │                                 │
+    │                          │                       TRIGGER 1 fires:
+    │                          │                       trg_unlock_task_after_submission
+    │                          │                         85 >= 70 ✓
+    │                          │                         UPDATE kanban_task
+    │                          │                         SET status='in_progress'
+    │                          │                         WHERE lesson_id=4
+    │                          │                           AND status='locked'
+    │                          │                           AND project.user_id=1
+    │                          │                                 │
+    │                          │                       TRIGGER 3 fires:
+    │                          │                       trg_auto_ship_project
+    │                          │                         total=4, done=3 — not all done
+    │                          │                         (no ship yet)
+    │                          │
+    │                          │◄──────────────────────
+    │                     res.json({
+    │                       message: 'Mastery achieved! Tasks unlocked.'
+    │                     })
+    │◄─── HTTP 200 ────────────┘
+    ▼
+JS updates kanban board UI
+(task now shows 'in_progress')</div>
+
+<div class="box box-green"><div class="box-title">The critical insight</div>The trigger fires <em>inside MySQL</em> during the INSERT. By the time <code>pool.query()</code> returns to the server, the kanban task is already unlocked in the database. The server code needs zero lines for task unlocking — the database handled it autonomously.</div>
+</section>
+
+<!-- ═══ SECURITY ═══ -->
+<section id="security">
+<h2>Security Layers — Defence in Depth</h2>
+<p>Brio has seven independent security layers. If one fails, the others hold.</p>
+<div class="ascii">
+┌──────────────────────────────────────────────────────────────────┐
+│  Layer 1 — Zod input validation                                  │
+│  Malformed requests (missing fields, wrong types) are            │
+│  rejected before any route logic runs.                           │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 2 — Parameterised SQL queries                             │
+│  pool.query('SELECT * FROM users WHERE email = ?', [email])      │
+│  User-supplied values are NEVER concatenated into SQL strings.   │
+│  This makes SQL injection impossible.                            │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 3 — JWT authentication                                    │
+│  Protected routes require authenticate() to pass.               │
+│  Without a valid signed token: 401 Unauthorized.                 │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 4 — Role-based authorisation                              │
+│  Admin routes additionally check req.user.role === 'admin'.      │
+│  A valid learner JWT cannot reach admin endpoints: 403.          │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 5 — bcrypt password hashing                               │
+│  Passwords are hashed with 10 salt rounds before storage.        │
+│  Even if the database is stolen, passwords cannot be reversed.   │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 6 — Chaos Sandbox dual-layer                              │
+│  Server:   rejects any statement not starting with SELECT.       │
+│  Database: readOnlyPool uses a MySQL user with only SELECT       │
+│            privilege — cannot write even if server check fails.  │
+├──────────────────────────────────────────────────────────────────┤
+│  Layer 7 — Schema Explorer table whitelist                       │
+│  Before running DESCRIBE &lt;name&gt;, the server fetches SHOW TABLES  │
+│  and confirms the name is in that list. Prevents injection via   │
+│  user-supplied table name parameters.                            │
+└──────────────────────────────────────────────────────────────────┘</div>
+</section>
+
+<!-- ═══ CHEATSHEET ═══ -->
+<section id="cheatsheet">
+<h2>Quick Reference Cheat Sheet</h2>
+
+<h3>SQL Query Anatomy</h3>
+<pre><code><span class="kw">SELECT</span>   col, <span class="fn">COUNT</span>(<span class="op">*</span>), <span class="fn">AVG</span>(col2)    <span class="cm">-- what to return</span>
+<span class="kw">FROM</span>     table_a a
+<span class="kw">JOIN</span>     table_b b <span class="kw">ON</span> a.id <span class="op">=</span> b.fk   <span class="cm">-- combine tables</span>
+<span class="kw">WHERE</span>    col3 <span class="op">=</span> <span class="str">'value'</span>              <span class="cm">-- filter BEFORE grouping</span>
+<span class="kw">GROUP BY</span> col                          <span class="cm">-- collapse rows into groups</span>
+<span class="kw">HAVING</span>   <span class="fn">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="num">3</span>                <span class="cm">-- filter AFTER grouping</span>
+<span class="kw">ORDER BY</span> col <span class="kw">DESC</span>                    <span class="cm">-- sort</span>
+<span class="kw">LIMIT</span>    <span class="num">10</span>;                          <span class="cm">-- max rows</span></code></pre>
+
+<h3>JOIN Types</h3>
+<table>
+  <tr><th>Type</th><th>Returns</th></tr>
+  <tr><td>INNER JOIN / JOIN</td><td>Only rows with a match on both sides</td></tr>
+  <tr><td>LEFT JOIN</td><td>All left rows + matched right rows (NULL if no match)</td></tr>
+  <tr><td>RIGHT JOIN</td><td>All right rows + matched left rows (NULL if no match)</td></tr>
+</table>
+
+<h3>WHERE vs HAVING</h3>
+<table>
+  <tr><th>Clause</th><th>When it filters</th><th>Can use aggregate functions?</th></tr>
+  <tr><td>WHERE</td><td>Before GROUP BY — on individual rows</td><td>No</td></tr>
+  <tr><td>HAVING</td><td>After GROUP BY — on groups</td><td>Yes (COUNT, AVG, SUM…)</td></tr>
+</table>
+
+<h3>All 11 API Endpoints</h3>
+<table>
+  <tr><th>Method + Route</th><th>Auth</th><th>Purpose</th></tr>
+  <tr><td>POST /api/auth/login</td><td>Public</td><td>Verify password → JWT</td></tr>
+  <tr><td>GET /api/profile/me</td><td>JWT</td><td>Profile + dashboard stats via learner_dashboard_view</td></tr>
+  <tr><td>POST /api/profile/update</td><td>JWT</td><td>Update bio</td></tr>
+  <tr><td>GET /api/projects</td><td>JWT</td><td>Projects via project_kanban_view</td></tr>
+  <tr><td>GET /api/kanban/:id</td><td>JWT</td><td>Kanban tasks for a project</td></tr>
+  <tr><td>GET /api/lessons</td><td>JWT</td><td>Enrolled lessons + submission scores</td></tr>
+  <tr><td>POST /api/submit</td><td>JWT</td><td>INSERT submission → triggers fire</td></tr>
+  <tr><td>GET /api/showcase/stats</td><td>Public</td><td>Live counts of users, projects, submissions</td></tr>
+  <tr><td>GET /api/showcase/queries</td><td>Public</td><td>List of 15 query descriptors</td></tr>
+  <tr><td>POST /api/showcase/query</td><td>Public</td><td>Execute a query by ID</td></tr>
+  <tr><td>POST /api/showcase/chaos-sandbox</td><td>Public</td><td>Run any SELECT via read-only pool</td></tr>
+</table>
+
+<h3>Trigger Chain in One Sentence</h3>
+<div class="box box-green">
+  <div class="box-title">The complete automation</div>
+  When a learner submits a lesson scoring ≥ 70 (<code>INSERT submission</code>) → <strong>Trigger 1</strong> unlocks any kanban task gated on that lesson → <strong>Trigger 3</strong> checks if all tasks in the project are now done, and if so, marks the project as 'shipped' — entirely inside MySQL, with zero application code involved.
+</div>
+
+<h3>Data Flow in One Line</h3>
+<div class="ascii">
+Browser fetch() → Express route → authenticate() → pool.query()
+  → MySQL (triggers may fire silently) → rows returned
+  → res.json() → Browser receives JSON → DOM updated</div>
+
+<hr>
+<p style="text-align:center;color:var(--muted);font-size:.85rem;line-height:2">
+  Brio — CS1211 Database Management Systems<br>
+  Francis Reuben R (1RU25CSE0168) &nbsp;·&nbsp; Darshan Jain (1RUA25CSE0148) &nbsp;·&nbsp; Harshith BA (1RUA25CSE0185)<br>
+  RV University, Bengaluru &nbsp;·&nbsp; 2025–26
+</p>
+</section>
+
+</main>
+
+<script>
+// Reading progress bar
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// Active sidebar link tracking
+const links = document.querySelectorAll('.sb-link');
+const sections = document.querySelectorAll('section[id]');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
